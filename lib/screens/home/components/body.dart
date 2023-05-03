@@ -1,5 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_tests/constants.dart';
+import 'package:flutter_tests/models/group.dart';
+import 'package:flutter_tests/screens/home/components/categories.dart';
+import 'package:flutter_tests/screens/home/components/genre.dart';
+import 'package:flutter_tests/screens/home/components/group_card.dart';
+import 'package:http/http.dart' as http;
 
 class Body extends StatelessWidget {
   @override
@@ -7,71 +14,66 @@ class Body extends StatelessWidget {
     return Column(
       children: <Widget>[
         Categorylist(),
+        Genres(),
+        GroupCarusel(),
       ],
     );
   }
 }
 
-class Categorylist extends StatefulWidget {
+class GroupCarusel extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _CategorylistState();
+  _GroupCaruselState createState() => _GroupCaruselState();
 }
 
-class _CategorylistState extends State<Categorylist> {
-  int selectCategory = 1;
-  List<String> categories = [
-    "Matematika",
-    "Fizika",
-    "Kimyo",
-    "Adabiyot",
-    "Tarix"
-  ];
-  // print(categories.length);
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 60,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: categories.length,
-        itemBuilder: (context, index) => buildCategory(index, context),
-      ),
-    );
+class _GroupCaruselState extends State<GroupCarusel> {
+  late PageController _pageController;
+  int initalPage = 1;
+  List<Group> groups = [];
+  var loading = false;
+
+  Future<Null> getData() async {
+    setState(() {
+      loading = true;
+    });
+
+    final responseData =
+        await http.get(Uri.parse("http://complexprogrammer.uz/GetGroups/"));
+    if (responseData.statusCode == 200) {
+      final data = jsonDecode(responseData.body);
+      setState(() {
+        for (Map<String, dynamic> i in data) {
+          groups.add(Group.fromJson(i));
+        }
+        loading = false;
+      });
+    }
   }
 
-  Padding buildCategory(int index, BuildContext context) {
+  @override
+  void initState() {
+    super.initState();
+    getData();
+    _pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pageController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            selectCategory = index;
-          });
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              categories[index],
-              style: Theme.of(context).textTheme.headline5?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: index == selectCategory
-                        ? kTextColor
-                        : Colors.black.withOpacity(0.4),
-                  ),
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
-              height: 6,
-              width: 40,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: index == selectCategory
-                    ? kSecondaryColor
-                    : Colors.transparent,
-              ),
-            ),
-          ],
+      padding: const EdgeInsets.symmetric(vertical: kDefaultPadding),
+      child: AspectRatio(
+        aspectRatio: 0.85,
+        child: PageView.builder(
+          itemCount: groups.length,
+          itemBuilder: (context, index) => GroupCard(
+            group: groups[index],
+          ),
         ),
       ),
     );

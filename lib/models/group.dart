@@ -4,7 +4,7 @@ class Group {
   String name_ru_ru;
   String name_uz_crl;
   String name_uz_uz;
-  String number;
+  int number;
   Group({
     required this.id,
     required this.name_en_us,
