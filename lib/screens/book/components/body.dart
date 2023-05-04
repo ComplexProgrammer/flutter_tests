@@ -15,17 +15,17 @@ class Body extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Backdrop(size: size, group: group),
-          Padding(
-            padding: const EdgeInsets.all(kDefaultPadding),
-            child: Column(
-              children: [
-                Text(
-                  "Fanni tanlang",
-                  style: Theme.of(context).textTheme.headline5,
-                ),
-              ],
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(kDefaultPadding),
+          //   child: Column(
+          //     children: [
+          //       Text(
+          //         "Fanni tanlang",
+          //         style: Theme.of(context).textTheme.headline5,
+          //       ),
+          //     ],
+          //   ),
+          // ),
           BookCarousel(
             group: group,
           ),

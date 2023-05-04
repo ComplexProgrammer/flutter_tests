@@ -10,9 +10,9 @@ class Body extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          Categorylist(),
-          Genres(),
-          const SizedBox(height: kDefaultPadding),
+          // Categorylist(),
+          // Genres(),
+          // const SizedBox(height: kDefaultPadding),
           GroupCarousel(),
         ],
       ),

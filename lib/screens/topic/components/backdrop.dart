@@ -53,8 +53,8 @@ class Backdrop extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  book.name_uz_uz,
-                  style: Theme.of(context).textTheme.displaySmall,
+                  "Mavzuni tanlang",
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
               ],
             ),

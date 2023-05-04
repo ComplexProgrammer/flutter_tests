@@ -19,13 +19,14 @@ class Backdrop extends StatelessWidget {
       child: Stack(children: [
         Container(
           height: size.height * 0.4 - 50,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50)),
-            boxShadow: [kDefaultShadow],
+          decoration: BoxDecoration(
+            borderRadius:
+                const BorderRadius.only(bottomLeft: Radius.circular(50)),
+            boxShadow: const [kDefaultShadow],
             image: DecorationImage(
               fit: BoxFit.cover,
               image: NetworkImage(
-                  'https://complexprogrammer.uz/static/img/school_tests_bg.png'),
+                  'https://complexprogrammer.uz/media/projects/tests/bino_${topic.number.toString()}.png'),
             ),
           ),
         ),

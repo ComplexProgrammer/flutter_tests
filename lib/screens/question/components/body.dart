@@ -15,17 +15,6 @@ class Body extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Backdrop(size: size, topic: topic),
-          Padding(
-            padding: const EdgeInsets.all(kDefaultPadding),
-            child: Column(
-              children: [
-                Text(
-                  "Fanni tanlang",
-                  style: Theme.of(context).textTheme.headline5,
-                ),
-              ],
-            ),
-          ),
           QuestionCarousel(
             topic: topic,
           ),

@@ -19,13 +19,14 @@ class Backdrop extends StatelessWidget {
       child: Stack(children: [
         Container(
           height: size.height * 0.4 - 50,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50)),
-            boxShadow: [kDefaultShadow],
+          decoration: BoxDecoration(
+            borderRadius:
+                const BorderRadius.only(bottomLeft: Radius.circular(50)),
+            boxShadow: const [kDefaultShadow],
             image: DecorationImage(
-              fit: BoxFit.cover,
+              fit: BoxFit.fitWidth,
               image: NetworkImage(
-                  'https://complexprogrammer.uz/static/img/school_tests_bg.png'),
+                  "https://complexprogrammer.uz/media/projects/tests/label_${group.number.toString()}.png"),
             ),
           ),
         ),
@@ -52,8 +53,8 @@ class Backdrop extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  group.name_uz_uz,
-                  style: Theme.of(context).textTheme.displaySmall,
+                  "Fanni tanlang",
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
               ],
             ),

@@ -15,17 +15,6 @@ class Body extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Backdrop(size: size, book: book),
-          Padding(
-            padding: const EdgeInsets.all(kDefaultPadding),
-            child: Column(
-              children: [
-                Text(
-                  "Mavzuni tanlang",
-                  style: Theme.of(context).textTheme.headline5,
-                ),
-              ],
-            ),
-          ),
           TopicCarousel(
             book: book,
           ),
