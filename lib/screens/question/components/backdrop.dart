@@ -24,7 +24,7 @@ class Backdrop extends StatelessWidget {
                 const BorderRadius.only(bottomLeft: Radius.circular(50)),
             boxShadow: const [kDefaultShadow],
             image: DecorationImage(
-              fit: BoxFit.cover,
+              fit: BoxFit.fitHeight,
               image: NetworkImage(
                   'https://complexprogrammer.uz/media/projects/tests/bino_${topic.number.toString()}.png'),
             ),

@@ -10,6 +10,9 @@ class Body extends StatelessWidget {
   const Body({super.key, required this.question});
   @override
   Widget build(BuildContext context) {
+    // return const Scaffold(
+    //   body: MyStatefulWidget(),
+    // );
     Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
@@ -20,17 +23,58 @@ class Body extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  "Fanni tanlang",
+                  question.name_uz_uz,
                   style: Theme.of(context).textTheme.headline5,
                 ),
               ],
             ),
           ),
-          AnswerCarousel(
-            question: question,
-          ),
+          // AnswerCarousel(
+          //   question: question,
+          // ),
         ],
       ),
+    );
+  }
+}
+
+enum SingingCharacter { lafayette, jefferson }
+
+class MyStatefulWidget extends StatefulWidget {
+  const MyStatefulWidget({super.key});
+
+  @override
+  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+}
+
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  SingingCharacter? _character = SingingCharacter.lafayette;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        RadioListTile<SingingCharacter>(
+          title: const Text('Lafayette'),
+          value: SingingCharacter.lafayette,
+          groupValue: _character,
+          onChanged: (SingingCharacter? value) {
+            setState(() {
+              _character = value;
+            });
+          },
+        ),
+        RadioListTile<SingingCharacter>(
+          title: const Text('Thomas Jefferson'),
+          value: SingingCharacter.jefferson,
+          groupValue: _character,
+          onChanged: (SingingCharacter? value) {
+            setState(() {
+              _character = value;
+            });
+          },
+        ),
+      ],
     );
   }
 }

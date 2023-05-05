@@ -28,7 +28,7 @@ class AnswerCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(50),
                   boxShadow: const [kDefaultShadow],
                   image: const DecorationImage(
-                    fit: BoxFit.fill,
+                    fit: BoxFit.fitHeight,
                     image: NetworkImage(
                         'https://complexprogrammer.uz/static/img/school_tests_bg.png'),
                   ),
