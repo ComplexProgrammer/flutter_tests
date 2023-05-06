@@ -84,7 +84,7 @@ class _AnswerCaruselState extends State<AnswerCarousel> {
     return AnimatedBuilder(
       animation: _pageController,
       builder: (context, child) {
-        double value = 0, page = 0;
+        double value = 0;
         if (_pageController.position.haveDimensions) {
           value = index - _pageController.page!;
           value = (value * 0.038).clamp(-1, 1);
