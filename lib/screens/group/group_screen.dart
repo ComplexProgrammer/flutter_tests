@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tests/constants.dart';
-import 'package:flutter_tests/screens/home/components/body.dart';
+import 'package:flutter_tests/screens/group/components/body.dart';
 
-class HomeScreen extends StatelessWidget {
+class GroupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,8 +23,9 @@ class HomeScreen extends StatelessWidget {
       actions: const <Widget>[
         IconButton(
           onPressed: null,
-          padding: EdgeInsets.only(right: kDefaultPadding),
-          icon: Icon(Icons.telegram),
+          icon: Icon(
+            Icons.telegram,
+          ),
         )
       ],
     );
