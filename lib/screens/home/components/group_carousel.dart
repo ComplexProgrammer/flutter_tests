@@ -54,23 +54,25 @@ class _GroupCaruselState extends State<GroupCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: kDefaultPadding),
-      child: AspectRatio(
-        aspectRatio: 0.85,
-        child: PageView.builder(
-          onPageChanged: (value) {
-            setState(() {
-              initalPage = value;
-            });
-          },
-          controller: _pageController,
-          physics: const ClampingScrollPhysics(),
-          itemCount: groups.length,
-          itemBuilder: (context, index) => buildGroupSlider(index),
-        ),
-      ),
-    );
+    return loading
+        ? const Center(child: CircularProgressIndicator())
+        : Padding(
+            padding: const EdgeInsets.symmetric(vertical: kDefaultPadding),
+            child: AspectRatio(
+              aspectRatio: 0.85,
+              child: PageView.builder(
+                onPageChanged: (value) {
+                  setState(() {
+                    initalPage = value;
+                  });
+                },
+                controller: _pageController,
+                physics: const ClampingScrollPhysics(),
+                itemCount: groups.length,
+                itemBuilder: (context, index) => buildGroupSlider(index),
+              ),
+            ),
+          );
   }
 
   Widget buildGroupSlider(int index) {

@@ -106,62 +106,64 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int currentPage = 1;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        for (Answer i in answers)
-          RadioListTile<Answer>(
-            title: Text(i.name_uz_uz),
-            value: i,
-            groupValue: selectedRadio,
-            onChanged: (value) {
-              print(value!.name_uz_uz);
-              setState(() {
-                i = value;
-                setSelectedRadio(value);
-              });
-            },
-          ),
-        Pagination(
-          paginateButtonStyles: PaginateButtonStyles(
-            backgroundColor: Colors.pink,
-            activeBackgroundColor: Colors.green,
-            activeTextStyle: const TextStyle(color: Colors.red),
-          ),
-          prevButtonStyles: PaginateSkipButton(
-            buttonBackgroundColor: Colors.orange,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(20),
-              bottomLeft: Radius.circular(20),
-            ),
-          ),
-          nextButtonStyles: PaginateSkipButton(
-            buttonBackgroundColor: Colors.purple,
-            borderRadius: const BorderRadius.only(
-              topRight: Radius.circular(20),
-              bottomRight: Radius.circular(20),
-            ),
-          ),
-          onPageChange: (number) {
-            setState(() {
-              currentPage = number;
-            });
-          },
-          useGroup: false,
-          totalPage: 10,
-          show: 1,
-          currentPage: currentPage,
-        ),
-        // RadioListTile<SingingCharacter>(
-        //   title: const Text('Thomas Jefferson'),
-        //   value: SingingCharacter.jefferson,
-        //   groupValue: _character,
-        //   onChanged: (SingingCharacter? value) {
-        //     setState(() {
-        //       _character = value;
-        //     });
-        //   },
-        // ),
-      ],
-    );
+    return loading
+        ? const Center(child: CircularProgressIndicator())
+        : Column(
+            children: <Widget>[
+              for (Answer i in answers)
+                RadioListTile<Answer>(
+                  title: Text(i.name_uz_uz),
+                  value: i,
+                  groupValue: selectedRadio,
+                  onChanged: (value) {
+                    print(value!.name_uz_uz);
+                    setState(() {
+                      i = value;
+                      setSelectedRadio(value);
+                    });
+                  },
+                ),
+              Pagination(
+                paginateButtonStyles: PaginateButtonStyles(
+                  backgroundColor: Colors.pink,
+                  activeBackgroundColor: Colors.green,
+                  activeTextStyle: const TextStyle(color: Colors.red),
+                ),
+                prevButtonStyles: PaginateSkipButton(
+                  buttonBackgroundColor: Colors.orange,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    bottomLeft: Radius.circular(20),
+                  ),
+                ),
+                nextButtonStyles: PaginateSkipButton(
+                  buttonBackgroundColor: Colors.purple,
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                  ),
+                ),
+                onPageChange: (number) {
+                  setState(() {
+                    currentPage = number;
+                  });
+                },
+                useGroup: false,
+                totalPage: 10,
+                show: 1,
+                currentPage: currentPage,
+              ),
+              // RadioListTile<SingingCharacter>(
+              //   title: const Text('Thomas Jefferson'),
+              //   value: SingingCharacter.jefferson,
+              //   groupValue: _character,
+              //   onChanged: (SingingCharacter? value) {
+              //     setState(() {
+              //       _character = value;
+              //     });
+              //   },
+              // ),
+            ],
+          );
   }
 }
