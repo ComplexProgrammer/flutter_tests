@@ -1,23 +1,34 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pagination/flutter_pagination.dart';
 import 'package:flutter_pagination/widgets/button_styles.dart';
 import 'package:flutter_tests/constants.dart';
 import 'package:flutter_tests/models/answer.dart';
+import 'package:flutter_tests/models/book.dart';
 import 'package:flutter_tests/models/question.dart';
 import 'package:flutter_tests/models/topic.dart';
 import 'package:flutter_tests/screens/question/components/backdrop.dart';
-import 'package:flutter_tests/screens/question/components/question_carousel.dart';
+import 'package:flutter_tests/screens/topic/topic_screen.dart';
+import 'package:fluttertagselector/tag_class.dart';
 import 'package:http/http.dart' as http;
+import 'package:fluttertagselector/fluttertagselector.dart';
 
 class Body extends StatelessWidget {
   final Topic topic;
+  final Book book;
 
-  const Body({super.key, required this.topic});
+  const Body({super.key, required this.topic, required this.book});
   @override
   Widget build(BuildContext context) {
+    final List<Tags> tagList = [
+      Tags("Label 1", Icons.map),
+      Tags("Label 2", Icons.headset),
+      Tags("Label 3", Icons.info),
+      Tags("Label 4", Icons.cake),
+      Tags("Label 5", Icons.ac_unit),
+    ];
     Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
@@ -29,6 +40,100 @@ class Body extends StatelessWidget {
               topic: topic,
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(kDefaultPadding),
+            child: ElevatedButton(
+              onPressed: () {
+                showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    insetPadding: const EdgeInsets.symmetric(vertical: 150),
+                    contentPadding: EdgeInsets.zero,
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    // backgroundColor: Colors.transparent,
+                    title: const Text('Natijalar'),
+                    icon: const Icon(Icons.restore_outlined),
+                    titlePadding: const EdgeInsets.all(kDefaultPadding / 2),
+                    content: Column(
+                      children: [
+                        const Text(
+                          'To`g`ri javoblar: ',
+                          style: TextStyle(color: Colors.greenAccent),
+                        ),
+                        const Text(
+                          'Noto`g`ri javoblar: ',
+                          style: TextStyle(color: Colors.redAccent),
+                        ),
+                        const Text(
+                          'Belgilanmagan savollar: ',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        ElevatedButton.icon(
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TopicScreen(book: book),
+                            ),
+                          ),
+                          icon: const Icon(
+                            Icons.topic,
+                            size: 24.0,
+                          ),
+                          label: const Text('Mavzular'), // <-- Text
+                        ),
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            debugPrint('ElevatedButton Clicked');
+                            // Navigator.pop(context);
+                          },
+                          icon: const Icon(
+                            Icons.start,
+                            size: 24.0,
+                          ),
+                          label: const Text('Davom etish'),
+                          style: ElevatedButton.styleFrom(
+                              shape: const StadiumBorder()),
+                        ),
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            debugPrint('ElevatedButton Clicked');
+                          },
+                          icon: const Icon(
+                            Icons.start,
+                            size: 24.0,
+                          ),
+                          label: const Text('Davom etish 2'),
+                        ),
+                      ],
+                    ),
+                    // content: const Image(
+                    //   image: NetworkImage(
+                    //       'https://complexprogrammer.uz/static/img/school_tests_bg.png'),
+                    // ),
+                    // actions: [
+                    //   TextButton(
+                    //     child: const Text('close'),
+                    //     onPressed: () => Navigator.pop(context),
+                    //   ),
+                    //   // TextButton(
+                    //   //   child: const Text('OK'),
+                    //   //   onPressed: () {
+                    //   //     Navigator.push(
+                    //   //       context,
+                    //   //       MaterialPageRoute(
+                    //   //         builder: (context) => TopicScreen(book: book),
+                    //   //       ),
+                    //   //     );
+                    //   //   },
+                    //   // ),
+                    // ],
+                  ),
+                );
+              },
+              child: const Text('Yakunlash'),
+            ),
+          )
           // QuestionCarousel(
           //   topic: topic,
           // ),
@@ -124,19 +229,22 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               if (!loading)
                 Pagination(
                   paginateButtonStyles: PaginateButtonStyles(
-                    backgroundColor: Colors.pink,
-                    activeBackgroundColor: Colors.green,
-                    activeTextStyle: const TextStyle(color: Colors.red),
+                    // backgroundColor: Colors.pink,
+                    activeBackgroundColor: Colors.redAccent,
+                    activeTextStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),
                   ),
                   prevButtonStyles: PaginateSkipButton(
-                    buttonBackgroundColor: Colors.orange,
+                    // buttonBackgroundColor: Colors.orange,
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(20),
                       bottomLeft: Radius.circular(20),
                     ),
                   ),
                   nextButtonStyles: PaginateSkipButton(
-                    buttonBackgroundColor: Colors.purple,
+                    // buttonBackgroundColor: Colors.purple,
                     borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(20),
                       bottomRight: Radius.circular(20),

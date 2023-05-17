@@ -98,6 +98,7 @@ class _TopicCaruselState extends State<TopicCarousel> {
             angle: math.pi * value,
             child: TopicCard(
               topic: topics[index],
+              book: book,
             ),
           ),
         );

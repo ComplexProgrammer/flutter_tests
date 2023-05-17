@@ -18,7 +18,7 @@ class _GroupCaruselState extends State<GroupCarousel> {
   List<Group> groups = [];
   var loading = false;
 
-  Future<Null> getData() async {
+  Future<void> getData() async {
     setState(() {
       loading = true;
     });
@@ -79,7 +79,7 @@ class _GroupCaruselState extends State<GroupCarousel> {
     return AnimatedBuilder(
       animation: _pageController,
       builder: (context, child) {
-        double value = 0, page = 0;
+        double value = 0;
         if (_pageController.position.haveDimensions) {
           value = index - _pageController.page!;
           value = (value * 0.038).clamp(-1, 1);
