@@ -27,6 +27,7 @@ class BookCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
                   boxShadow: const [kDefaultShadow],
+                  color: Color(0xFFF709080),
                   image: DecorationImage(
                     fit: BoxFit.fill,
                     image: NetworkImage(

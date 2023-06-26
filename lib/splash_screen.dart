@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tests/main.dart';
 import 'package:flutter_tests/screens/group/group_screen.dart';
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:splashscreen/splashscreen.dart';
+// import 'package:splashscreen/splashscreen.dart';
 
 class SplashApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -14,23 +14,23 @@ class SplashApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: GroupScreen(),
-      home: SplashScreen(
-        seconds: 3,
-        navigateAfterSeconds: MyApp(),
-        title: const Text(
-          'www.complexprogrammer.uz',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20.0,
-            color: Colors.white,
-          ),
-        ),
-        image: Image.network(
-          'https://complexprogrammer.uz/static/img/icon_512.png',
-        ),
-        backgroundColor: Colors.lightBlue,
-      ),
+      home: MyApp(),
+      // home: SplashScreen(
+      //   seconds: 3,
+      //   navigateAfterSeconds: MyApp(),
+      //   title: const Text(
+      //     'www.complexprogrammer.uz',
+      //     style: TextStyle(
+      //       fontWeight: FontWeight.bold,
+      //       fontSize: 20.0,
+      //       color: Colors.white,
+      //     ),
+      //   ),
+      //   image: Image.network(
+      //     'https://complexprogrammer.uz/static/img/icon_512.png',
+      //   ),
+      //   backgroundColor: Colors.lightBlue,
+      // ),
     );
   }
 }

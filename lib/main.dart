@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'package:flutter/material.dart';
 import 'package:flutter_tests/navbar.dart';
 import 'package:flutter_tests/screens/group/components/body.dart';

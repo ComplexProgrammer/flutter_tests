@@ -37,8 +37,10 @@ class GroupCard extends StatelessWidget {
         Expanded(
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
+              borderRadius: BorderRadius.circular(5),
               boxShadow: const [kDefaultShadow],
+              // color: Colors.black.withOpacity(0.0),
+              color: Color(0xFFF909080),
               image: DecorationImage(
                 fit: BoxFit.contain,
                 image: NetworkImage(
@@ -47,13 +49,13 @@ class GroupCard extends StatelessWidget {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
-          child: Text(
-            group.name_uz_uz,
-            style: Theme.of(context).textTheme.headline5,
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
+        //   child: Text(
+        //     group.name_uz_uz,
+        //     style: Theme.of(context).textTheme.headline5,
+        //   ),
+        // ),
         // Row(
         //   mainAxisAlignment: MainAxisAlignment.center,
         //   children: [
@@ -65,7 +67,7 @@ class GroupCard extends StatelessWidget {
         //       width: kDefaultPadding / 2,
         //     ),
         //     Text(
-        //       "${group.number}",
+        //       "${group.name_uz_uz}",
         //       style: Theme.of(context).textTheme.bodyText2,
         //     ),
         //   ],

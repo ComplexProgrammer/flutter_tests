@@ -29,6 +29,7 @@ class TopicCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
                   boxShadow: const [kDefaultShadow],
+                  color: Color(0xFFF709090),
                   image: DecorationImage(
                     fit: BoxFit.fill,
                     image: NetworkImage(

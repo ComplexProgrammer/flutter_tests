@@ -11,9 +11,7 @@ import 'package:flutter_tests/models/question.dart';
 import 'package:flutter_tests/models/topic.dart';
 import 'package:flutter_tests/screens/question/components/backdrop.dart';
 import 'package:flutter_tests/screens/topic/topic_screen.dart';
-import 'package:fluttertagselector/tag_class.dart';
 import 'package:http/http.dart' as http;
-import 'package:fluttertagselector/fluttertagselector.dart';
 
 class Body extends StatelessWidget {
   final Topic topic;
@@ -22,13 +20,6 @@ class Body extends StatelessWidget {
   const Body({super.key, required this.topic, required this.book});
   @override
   Widget build(BuildContext context) {
-    final List<Tags> tagList = [
-      Tags("Label 1", Icons.map),
-      Tags("Label 2", Icons.headset),
-      Tags("Label 3", Icons.info),
-      Tags("Label 4", Icons.cake),
-      Tags("Label 5", Icons.ac_unit),
-    ];
     Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(

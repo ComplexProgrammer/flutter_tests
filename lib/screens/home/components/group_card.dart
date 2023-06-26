@@ -40,7 +40,7 @@ class GroupCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(50),
               boxShadow: const [kDefaultShadow],
               image: DecorationImage(
-                fit: BoxFit.contain,
+                // fit: BoxFit.scaleDown,
                 image: NetworkImage(
                     "https://complexprogrammer.uz/media/projects/tests/label_${group.number.toString()}.png"),
               ),
