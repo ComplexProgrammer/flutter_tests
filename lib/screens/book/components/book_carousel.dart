@@ -98,6 +98,7 @@ class _BookCaruselState extends State<BookCarousel> {
             angle: math.pi * value,
             child: BookCard(
               book: books[index],
+              group: group,
             ),
           ),
         );

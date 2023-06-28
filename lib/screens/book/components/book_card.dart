@@ -4,10 +4,13 @@ import 'package:flutter_tests/constants.dart';
 import 'package:flutter_tests/models/book.dart';
 import 'package:flutter_tests/screens/topic/topic_screen.dart';
 
+import '../../../models/group.dart';
+
 class BookCard extends StatelessWidget {
   final Book book;
+  final Group group;
 
-  const BookCard({super.key, required this.book});
+  const BookCard({super.key, required this.book, required this.group});
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +20,7 @@ class BookCard extends StatelessWidget {
           MaterialPageRoute(
               builder: (context) => TopicScreen(
                     book: book,
+                    group: group,
                   ))),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),

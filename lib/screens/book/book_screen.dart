@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tests/constants.dart';
+import 'package:flutter_tests/models/book.dart';
 import 'package:flutter_tests/models/group.dart';
 import 'package:flutter_tests/screens/book/components/body.dart';
 

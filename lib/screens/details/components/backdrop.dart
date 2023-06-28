@@ -52,7 +52,7 @@ class Backdrop extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  group.name_uz_uz,
+                  group.name_uz_uz!,
                   style: Theme.of(context).textTheme.displaySmall,
                 ),
               ],

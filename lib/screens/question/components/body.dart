@@ -13,11 +13,18 @@ import 'package:flutter_tests/screens/question/components/backdrop.dart';
 import 'package:flutter_tests/screens/topic/topic_screen.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../models/group.dart';
+
 class Body extends StatelessWidget {
   final Topic topic;
   final Book book;
+  final Group group;
 
-  const Body({super.key, required this.topic, required this.book});
+  const Body(
+      {super.key,
+      required this.topic,
+      required this.book,
+      required this.group});
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -64,7 +71,10 @@ class Body extends StatelessWidget {
                           onPressed: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TopicScreen(book: book),
+                              builder: (context) => TopicScreen(
+                                book: book,
+                                group: group,
+                              ),
                             ),
                           ),
                           icon: const Icon(

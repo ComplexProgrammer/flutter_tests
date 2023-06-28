@@ -8,22 +8,25 @@ import 'package:flutter_tests/screens/topic/components/topic_card.dart';
 import 'package:http/http.dart' as http;
 import 'dart:math' as math;
 
+import '../../../models/group.dart';
+
 class TopicCarousel extends StatefulWidget {
   final Book book;
-
-  const TopicCarousel({super.key, required this.book});
+  final Group group;
+  const TopicCarousel({super.key, required this.book, required this.group});
   @override
-  _TopicCaruselState createState() => _TopicCaruselState(book);
+  _TopicCaruselState createState() => _TopicCaruselState(book, group);
 }
 
 class _TopicCaruselState extends State<TopicCarousel> {
   final Book book;
+  final Group group;
   late PageController _pageController;
   int initalPage = 1;
   List<Topic> topics = [];
   var loading = false;
 
-  _TopicCaruselState(this.book);
+  _TopicCaruselState(this.book, this.group);
 
   Future<Null> getData() async {
     setState(() {
@@ -99,6 +102,7 @@ class _TopicCaruselState extends State<TopicCarousel> {
             child: TopicCard(
               topic: topics[index],
               book: book,
+              group: group,
             ),
           ),
         );

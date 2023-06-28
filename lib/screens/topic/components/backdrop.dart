@@ -2,16 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tests/constants.dart';
 import 'package:flutter_tests/models/book.dart';
 
+import '../../../models/group.dart';
+import '../../book/book_screen.dart';
+import '../topic_screen.dart';
+
 class Backdrop extends StatelessWidget {
   const Backdrop({
     super.key,
     required this.size,
     required this.book,
+    required this.group,
   });
 
   final Size size;
   final Book book;
-
+  final Group group;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -61,7 +66,25 @@ class Backdrop extends StatelessWidget {
             ),
           ),
         ),
-        const SafeArea(child: BackButton())
+        // const SafeArea(child: BackButton()),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 5),
+          child: InkWell(
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BookScreen(
+                  group: group,
+                ),
+              ),
+            ),
+            child: const Icon(
+              Icons.arrow_back,
+              size: 24.0,
+              color: Colors.white,
+            ),
+          ),
+        ),
       ]),
     );
   }

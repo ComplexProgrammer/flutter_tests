@@ -5,10 +5,17 @@ import 'package:flutter_tests/models/book.dart';
 import 'package:flutter_tests/models/topic.dart';
 import 'package:flutter_tests/screens/question/question_screen.dart';
 
+import '../../../models/group.dart';
+
 class TopicCard extends StatelessWidget {
   final Topic topic;
   final Book book;
-  const TopicCard({super.key, required this.topic, required this.book});
+  final Group group;
+  const TopicCard(
+      {super.key,
+      required this.topic,
+      required this.book,
+      required this.group});
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +26,7 @@ class TopicCard extends StatelessWidget {
               builder: (context) => QuestionScreen(
                     topic: topic,
                     book: book,
+                    group: group,
                   ))),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),

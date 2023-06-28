@@ -1,17 +1,17 @@
 class Group {
   int id;
-  String name_en_us;
-  String name_ru_ru;
-  String name_uz_crl;
-  String name_uz_uz;
-  int number;
+  String? name_en_us;
+  String? name_ru_ru;
+  String? name_uz_crl;
+  String? name_uz_uz;
+  int? number;
   Group({
     required this.id,
-    required this.name_en_us,
-    required this.name_ru_ru,
-    required this.name_uz_crl,
-    required this.name_uz_uz,
-    required this.number,
+    this.name_en_us,
+    this.name_ru_ru,
+    this.name_uz_crl,
+    this.name_uz_uz,
+    this.number,
   });
   factory Group.fromJson(Map<String, dynamic> json) => Group(
         id: json["id"],
