@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:animations/animations.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pagination/flutter_pagination.dart';
 import 'package:flutter_pagination/widgets/button_styles.dart';
@@ -160,7 +161,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   List<Answer> answers = [];
   var loading = false;
   Answer? selectedRadio;
-
   _MyStatefulWidgetState(this.topic);
 
   Future<void> getData() async {
@@ -220,6 +220,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   value: i,
                   groupValue: selectedRadio,
                   onChanged: (value) {
+                    // final player = AudioPlayer();
+                    // player.play(UrlSource(
+                    //     'https://complexprogrammer.uz/static/sounds/right.mp3'));
+                    // _audioCache.play('right.mp3');
+                    AudioCache player = AudioCache();
+                    // player.play('right.mp3');
                     print(value!.name_uz_uz);
                     setState(() {
                       if (value.right) i = value;

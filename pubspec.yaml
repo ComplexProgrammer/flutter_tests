@@ -46,6 +46,7 @@ dependencies:
   url_launcher: ^6.1.5
   flutter_pagination: ^0.0.8
   # fluttertagselector: ^0.1.0
+  audioplayers: ^4.1.0
 
 dev_dependencies:
   flutter_test:
@@ -75,7 +76,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
-
+    - assets/raw/right.mp3
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
