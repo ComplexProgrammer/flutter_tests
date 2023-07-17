@@ -10,6 +10,7 @@ import 'package:flutter_tests/models/answer.dart';
 import 'package:flutter_tests/models/book.dart';
 import 'package:flutter_tests/models/question.dart';
 import 'package:flutter_tests/models/topic.dart';
+import 'package:flutter_tests/screens/question/components/CustomRadio.dart';
 import 'package:flutter_tests/screens/question/components/backdrop.dart';
 import 'package:flutter_tests/screens/topic/topic_screen.dart';
 import 'package:http/http.dart' as http;
@@ -154,11 +155,13 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  final player = AudioPlayer();
   final Topic topic;
   late PageController _pageController;
   int initalPage = 1;
   List<Question> questions = [];
   List<Answer> answers = [];
+  List<RadioModel> sampleData = [];
   var loading = false;
   Answer? selectedRadio;
   _MyStatefulWidgetState(this.topic);
@@ -185,6 +188,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   void initState() {
     super.initState();
+    // sampleData.add(new RadioModel(false, 'A', 'April 18'));
+    // sampleData.add(new RadioModel(false, 'B', 'April 17'));
+    // sampleData.add(new RadioModel(false, 'C', 'April 16'));
+    // sampleData.add(new RadioModel(false, 'D', 'April 15'));
     getData();
     _pageController = PageController(
       viewportFraction: 0.8,
@@ -207,73 +214,107 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int currentPage = 1;
   @override
   Widget build(BuildContext context) {
-    return loading
-        ? const Center(child: CircularProgressIndicator())
-        : Column(
-            children: [
-              if (!loading)
-                Text(questions[currentPage - 1].name_uz_uz.toString()),
-              for (Answer i in answers)
-                RadioListTile<Answer>(
-                  title: Text("${i.name_uz_uz} ${i.right}"),
-                  selectedTileColor: Colors.red,
-                  value: i,
-                  groupValue: selectedRadio,
-                  onChanged: (value) {
-                    // final player = AudioPlayer();
-                    // player.play(UrlSource(
-                    //     'https://complexprogrammer.uz/static/sounds/right.mp3'));
-                    // _audioCache.play('right.mp3');
-                    AudioCache player = AudioCache();
-                    // player.play('right.mp3');
-                    print(value!.name_uz_uz);
-                    setState(() {
-                      if (value.right) i = value;
-                      setSelectedRadio(value);
-                    });
-                  },
+    if (loading) {
+      return const Center(child: CircularProgressIndicator());
+    } else {
+      return Column(
+        children: [
+          if (!loading) Text(questions[currentPage - 1].name_uz_uz.toString()),
+          // for (Answer i in answers)
+          //   RadioListTile<Answer>(
+          //     title: Text("${i.name_uz_uz} ${i.right}"),
+          //     fillColor: MaterialStateColor.resolveWith(
+          //       (Set<MaterialState> states) {
+          //         if (states.contains(MaterialState.selected)) {
+          //           return Colors.red;
+          //         }
+          //         return Colors.green;
+          //       },
+          //     ),
+          //     value: i,
+          //     groupValue: selectedRadio,
+          //     onChanged: (value) {
+          //       if (i.right) {
+          //         player.play(UrlSource(
+          //             'https://complexprogrammer.uz/static/sounds/right.mp3'));
+          //       } else {
+          //         player.play(UrlSource(
+          //             'https://complexprogrammer.uz/static/sounds/wrong.mp3'));
+          //       }
+          //       print(value!.name_uz_uz);
+          //       setState(() {
+          //         if (value.right) i = value;
+          //         setSelectedRadio(value);
+          //       });
+          //     },
+          //   ),
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: sampleData.length,
+            itemBuilder: (BuildContext context, int index) {
+              return InkWell(
+                onTap: () {
+                  if (sampleData[index].isRight) {
+                    player.play(UrlSource(
+                        'https://complexprogrammer.uz/static/sounds/right.mp3'));
+                  } else {
+                    player.play(UrlSource(
+                        'https://complexprogrammer.uz/static/sounds/wrong.mp3'));
+                  }
+                  setState(() {
+                    sampleData.forEach((element) => element.isSelected = false);
+                    sampleData[index].isSelected = true;
+                  });
+                },
+                child: RadioItem(sampleData[index]),
+              );
+            },
+          ),
+          if (!loading)
+            Pagination(
+              paginateButtonStyles: PaginateButtonStyles(
+                // backgroundColor: Colors.pink,
+                activeBackgroundColor: Colors.redAccent,
+                activeTextStyle: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
                 ),
-              if (!loading)
-                Pagination(
-                  paginateButtonStyles: PaginateButtonStyles(
-                    // backgroundColor: Colors.pink,
-                    activeBackgroundColor: Colors.redAccent,
-                    activeTextStyle: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                    ),
-                  ),
-                  prevButtonStyles: PaginateSkipButton(
-                    // buttonBackgroundColor: Colors.orange,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      bottomLeft: Radius.circular(20),
-                    ),
-                  ),
-                  nextButtonStyles: PaginateSkipButton(
-                    // buttonBackgroundColor: Colors.purple,
-                    borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
-                    ),
-                  ),
-                  onPageChange: (number) {
-                    loadAswers(number);
-                    setState(() {
-                      currentPage = number;
-                    });
-                  },
-                  useGroup: false,
-                  totalPage: questions.length,
-                  show: 1,
-                  currentPage: currentPage,
+              ),
+              prevButtonStyles: PaginateSkipButton(
+                // buttonBackgroundColor: Colors.orange,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  bottomLeft: Radius.circular(20),
                 ),
-            ],
-          );
+              ),
+              nextButtonStyles: PaginateSkipButton(
+                // buttonBackgroundColor: Colors.purple,
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
+              ),
+              onPageChange: (number) {
+                player.play(UrlSource(
+                    'https://complexprogrammer.uz/static/sounds/click.mp3'));
+                loadAswers(number);
+                setState(() {
+                  currentPage = number;
+                });
+              },
+              useGroup: false,
+              totalPage: questions.length,
+              show: 1,
+              currentPage: currentPage,
+            ),
+        ],
+      );
+    }
   }
 
   Future<void> loadAswers(int id) async {
     answers = [];
+    sampleData = [];
     final responseData = await http.get(Uri.parse(
         "http://complexprogrammer.uz/GetAnswers?question_id=${id.toString()}"));
     if (responseData.statusCode == 200) {
@@ -281,6 +322,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       setState(() {
         for (Map<String, dynamic> i in data) {
           answers.add(Answer.fromJson(i));
+        }
+        var index = 0;
+        String buttonText = '';
+        for (Answer i in answers) {
+          index++;
+          if (index == 1) buttonText = 'A';
+          if (index == 2) buttonText = 'B';
+          if (index == 3) buttonText = 'C';
+          if (index == 4) buttonText = 'D';
+          sampleData.add(RadioModel(false, i.right, buttonText, i.name_uz_uz));
         }
       });
     }
