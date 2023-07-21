@@ -18,7 +18,7 @@ class Backdrop extends StatelessWidget {
       height: size.height * 0.4,
       child: Stack(children: [
         Container(
-          height: size.height * 0.4 - 50,
+          height: size.height * 0.4 - 25,
           decoration: BoxDecoration(
             borderRadius:
                 const BorderRadius.only(bottomLeft: Radius.circular(50)),
@@ -36,7 +36,7 @@ class Backdrop extends StatelessWidget {
           right: 0,
           child: Container(
             width: size.width * 0.9,
-            height: 100,
+            height: 50,
             decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -55,7 +55,7 @@ class Backdrop extends StatelessWidget {
               children: [
                 Text(
                   topic.name_uz_uz,
-                  style: Theme.of(context).textTheme.displaySmall,
+                  style: Theme.of(context).textTheme.titleSmall,
                 ),
               ],
             ),

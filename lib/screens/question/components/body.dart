@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:animations/animations.dart';
@@ -14,8 +15,12 @@ import 'package:flutter_tests/screens/question/components/CustomRadio.dart';
 import 'package:flutter_tests/screens/question/components/backdrop.dart';
 import 'package:flutter_tests/screens/topic/topic_screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/group.dart';
+
+int togri_javoblar_soni = 0;
+int notogri_javoblar_soni = 0;
 
 class Body extends StatelessWidget {
   final Topic topic;
@@ -29,21 +34,64 @@ class Body extends StatelessWidget {
       required this.group});
   @override
   Widget build(BuildContext context) {
+    final minutes = 15;
+    final seconds = 0;
+    Timer? countdownTimer;
+    Duration myDuration = Duration(minutes: minutes, seconds: seconds);
+    bool isPaused = false;
+
+    // final SharedPreferences prefs =
+    //     SharedPreferences.getInstance() as SharedPreferences;
+    // prefs.setStringList('javoblar', <String>['Earth', 'Moon', 'Sun']);
+    // prefs.setString('javoblar', '');
+
     Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
           Backdrop(size: size, topic: topic),
+          TweenAnimationBuilder<Duration>(
+              duration: Duration(
+                minutes: minutes,
+                seconds: seconds,
+              ),
+              tween: Tween(
+                  begin: Duration(
+                    minutes: minutes,
+                    seconds: seconds,
+                  ),
+                  end: Duration.zero),
+              onEnd: () {
+                print('Timer ended');
+              },
+              builder: (BuildContext context, Duration value, Widget? child) {
+                final minutes = value.inMinutes;
+                final seconds = value.inSeconds % 60;
+                var sec =
+                    seconds.toString().length == 1 ? '0$seconds' : '$seconds';
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 1),
+                  child: Text(
+                    '$minutes:$sec',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30),
+                  ),
+                );
+              }),
           Padding(
-            padding: const EdgeInsets.all(kDefaultPadding),
+            padding: const EdgeInsets.all(kDefaultPadding / 10),
             child: MyStatefulWidget(
               topic: topic,
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(kDefaultPadding),
+            padding: const EdgeInsets.all(kDefaultPadding / 10),
             child: ElevatedButton(
               onPressed: () {
+                isPaused = true;
                 showDialog(
                   barrierDismissible: false,
                   context: context,
@@ -51,23 +99,29 @@ class Body extends StatelessWidget {
                     insetPadding: const EdgeInsets.symmetric(vertical: 150),
                     contentPadding: EdgeInsets.zero,
                     clipBehavior: Clip.antiAliasWithSaveLayer,
-                    // backgroundColor: Colors.transparent,
+                    backgroundColor: Colors.transparent,
                     title: const Text('Natijalar'),
                     icon: const Icon(Icons.restore_outlined),
                     titlePadding: const EdgeInsets.all(kDefaultPadding / 2),
                     content: Column(
                       children: [
-                        const Text(
-                          'To`g`ri javoblar: ',
-                          style: TextStyle(color: Colors.greenAccent),
+                        Text(
+                          'To`g`ri javoblar: ${togri_javoblar_soni}',
+                          style: TextStyle(
+                            color: Colors.greenAccent,
+                          ),
                         ),
-                        const Text(
-                          'Noto`g`ri javoblar: ',
-                          style: TextStyle(color: Colors.redAccent),
+                        Text(
+                          'Noto`g`ri javoblar: ${notogri_javoblar_soni}',
+                          style: TextStyle(
+                            color: Colors.redAccent,
+                          ),
                         ),
-                        const Text(
-                          'Belgilanmagan savollar: ',
-                          style: TextStyle(color: Colors.grey),
+                        Text(
+                          'Belgilanmagan savollar:  ${10 - togri_javoblar_soni - notogri_javoblar_soni}',
+                          style: TextStyle(
+                            color: Colors.grey,
+                          ),
                         ),
                         ElevatedButton.icon(
                           onPressed: () => Navigator.push(
@@ -88,7 +142,8 @@ class Body extends StatelessWidget {
                         ElevatedButton.icon(
                           onPressed: () {
                             debugPrint('ElevatedButton Clicked');
-                            // Navigator.pop(context);
+                            Navigator.pop(context);
+                            isPaused = false;
                           },
                           icon: const Icon(
                             Icons.start,
@@ -148,15 +203,28 @@ class Body extends StatelessWidget {
 
 class MyStatefulWidget extends StatefulWidget {
   final Topic topic;
-  const MyStatefulWidget({super.key, required this.topic});
+  // final int togri_javoblar_soni;
+  // final int notogri_javoblar_soni;
+  const MyStatefulWidget({
+    super.key,
+    required this.topic,
+    // required this.togri_javoblar_soni,
+    // required this.notogri_javoblar_soni,
+  });
 
   @override
-  State<MyStatefulWidget> createState() => _MyStatefulWidgetState(topic);
+  State<MyStatefulWidget> createState() => _MyStatefulWidgetState(
+        topic,
+        // togri_javoblar_soni,
+        // notogri_javoblar_soni,
+      );
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   final player = AudioPlayer();
   final Topic topic;
+  // late int togri_javoblar_soni;
+  // late int notogri_javoblar_soni;
   late PageController _pageController;
   int initalPage = 1;
   List<Question> questions = [];
@@ -164,7 +232,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   List<RadioModel> sampleData = [];
   var loading = false;
   Answer? selectedRadio;
-  _MyStatefulWidgetState(this.topic);
+  _MyStatefulWidgetState(
+    this.topic,
+    // this.togri_javoblar_soni,
+    // this.notogri_javoblar_soni,
+  );
 
   Future<void> getData() async {
     setState(() {
@@ -212,6 +284,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   }
 
   int currentPage = 1;
+  int belgilanmagan = 0;
   @override
   Widget build(BuildContext context) {
     if (loading) {
@@ -219,35 +292,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     } else {
       return Column(
         children: [
-          if (!loading) Text(questions[currentPage - 1].name_uz_uz.toString()),
-          // for (Answer i in answers)
-          //   RadioListTile<Answer>(
-          //     title: Text("${i.name_uz_uz} ${i.right}"),
-          //     fillColor: MaterialStateColor.resolveWith(
-          //       (Set<MaterialState> states) {
-          //         if (states.contains(MaterialState.selected)) {
-          //           return Colors.red;
-          //         }
-          //         return Colors.green;
-          //       },
-          //     ),
-          //     value: i,
-          //     groupValue: selectedRadio,
-          //     onChanged: (value) {
-          //       if (i.right) {
-          //         player.play(UrlSource(
-          //             'https://complexprogrammer.uz/static/sounds/right.mp3'));
-          //       } else {
-          //         player.play(UrlSource(
-          //             'https://complexprogrammer.uz/static/sounds/wrong.mp3'));
-          //       }
-          //       print(value!.name_uz_uz);
-          //       setState(() {
-          //         if (value.right) i = value;
-          //         setSelectedRadio(value);
-          //       });
-          //     },
-          //   ),
+          if (!loading)
+            Text(
+              questions[currentPage - 1].name_uz_uz.toString(),
+              style: const TextStyle(
+                color: Colors.grey,
+                fontSize: 24,
+              ),
+            ),
           ListView.builder(
             shrinkWrap: true,
             itemCount: sampleData.length,
@@ -255,13 +307,22 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               return InkWell(
                 onTap: () {
                   if (sampleData[index].isRight) {
-                    player.play(UrlSource(
-                        'https://complexprogrammer.uz/static/sounds/right.mp3'));
+                    togri_javoblar_soni = togri_javoblar_soni + 1;
+                    player.play(
+                      UrlSource(
+                          'https://complexprogrammer.uz/static/sounds/right.mp3'),
+                    );
                   } else {
-                    player.play(UrlSource(
-                        'https://complexprogrammer.uz/static/sounds/wrong.mp3'));
+                    notogri_javoblar_soni++;
+                    player.play(
+                      UrlSource(
+                          'https://complexprogrammer.uz/static/sounds/wrong.mp3'),
+                    );
                   }
                   setState(() {
+                    sampleData.forEach((element) => element.isRight
+                        ? element.isClick = true
+                        : element.isClick = false);
                     sampleData.forEach((element) => element.isSelected = false);
                     sampleData[index].isSelected = true;
                   });
@@ -331,7 +392,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           if (index == 2) buttonText = 'B';
           if (index == 3) buttonText = 'C';
           if (index == 4) buttonText = 'D';
-          sampleData.add(RadioModel(false, i.right, buttonText, i.name_uz_uz));
+          sampleData
+              .add(RadioModel(false, i.right, false, buttonText, i.name_uz_uz));
         }
       });
     }

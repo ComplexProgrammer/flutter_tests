@@ -9,15 +9,14 @@ class CustomRadio extends StatefulWidget {
 
 class CustomRadioState extends State<CustomRadio> {
   List<RadioModel> sampleData = [];
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    sampleData.add(RadioModel(false, true, 'A', 'April 18'));
-    sampleData.add(RadioModel(false, false, 'B', 'April 17'));
-    sampleData.add(RadioModel(false, false, 'C', 'April 16'));
-    sampleData.add(RadioModel(false, false, 'D', 'April 15'));
+    sampleData.add(RadioModel(false, true, false, 'A', 'April 18'));
+    sampleData.add(RadioModel(false, false, false, 'B', 'April 17'));
+    sampleData.add(RadioModel(false, false, false, 'C', 'April 16'));
+    sampleData.add(RadioModel(false, false, false, 'D', 'April 15'));
   }
 
   @override
@@ -52,9 +51,9 @@ class RadioItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10.0),
+      margin: const EdgeInsets.all(5.0),
       child: Row(
-        mainAxisSize: MainAxisSize.max,
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Container(
             height: 50.0,
@@ -64,7 +63,9 @@ class RadioItem extends StatelessWidget {
                   ? _item.isRight
                       ? Colors.green
                       : Colors.red
-                  : Colors.transparent,
+                  : _item.isClick
+                      ? Colors.green
+                      : Colors.transparent,
               border: Border.all(
                   width: 1.0,
                   color: _item.isSelected
@@ -100,10 +101,12 @@ class RadioItem extends StatelessWidget {
 class RadioModel {
   bool isSelected;
   bool isRight;
+  bool isClick;
   final String buttonText;
   final String text;
 
-  RadioModel(this.isSelected, this.isRight, this.buttonText, this.text);
+  RadioModel(
+      this.isSelected, this.isRight, this.isClick, this.buttonText, this.text);
 }
 
 void main() {
