@@ -19,11 +19,7 @@ class QuestionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Body(
-        topic: topic,
-        book: book,
-        group: group,
-      ),
+      body: Body(topic: topic, book: book, group: group, tjs: 0, njs: 0),
     );
   }
 }

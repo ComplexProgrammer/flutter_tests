@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+// import 'dart:html';
 
 import 'package:animations/animations.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -26,14 +27,20 @@ class Body extends StatelessWidget {
   final Topic topic;
   final Book book;
   final Group group;
+  final int tjs;
+  final int njs;
 
   const Body(
       {super.key,
       required this.topic,
       required this.book,
-      required this.group});
+      required this.group,
+      required this.tjs,
+      required this.njs});
   @override
   Widget build(BuildContext context) {
+    togri_javoblar_soni = tjs;
+    notogri_javoblar_soni = njs;
     final minutes = 15;
     final seconds = 0;
     Timer? countdownTimer;
@@ -83,9 +90,10 @@ class Body extends StatelessWidget {
               }),
           Padding(
             padding: const EdgeInsets.all(kDefaultPadding / 10),
-            child: MyStatefulWidget(
-              topic: topic,
-            ),
+            child: MyStatefulWidget(topic: topic
+                // togri_javoblar_soni: togri_javoblar_soni,
+                // notogri_javoblar_soni: notogri_javoblar_soni
+                ),
           ),
           Padding(
             padding: const EdgeInsets.all(kDefaultPadding / 10),
