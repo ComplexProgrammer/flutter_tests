@@ -250,19 +250,22 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     setState(() {
       loading = true;
     });
-
+    questions = [];
     final responseData = await http.get(Uri.parse(
         "http://complexprogrammer.uz/GetQuestions?topic_id=${topic.id.toString()}"));
     if (responseData.statusCode == 200) {
       final data = jsonDecode(responseData.body);
+      print(data);
+      print(data[0]['id']);
       setState(() {
         for (Map<String, dynamic> i in data) {
           questions.add(Question.fromJson(i));
         }
-        loadAswers(1);
+        loadAswers(data[0]['id']);
         loading = false;
       });
     }
+    print(questions);
   }
 
   @override
@@ -300,7 +303,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     } else {
       return Column(
         children: [
-          if (!loading)
+          if (!loading && questions.isNotEmpty)
             Text(
               questions[currentPage - 1].name_uz_uz.toString(),
               style: const TextStyle(
@@ -328,10 +331,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     );
                   }
                   setState(() {
-                    sampleData.forEach((element) => element.isRight
-                        ? element.isClick = true
-                        : element.isClick = false);
-                    sampleData.forEach((element) => element.isSelected = false);
+                    for (var element in sampleData) {
+                      element.isRight
+                          ? element.isClick = true
+                          : element.isClick = false;
+                    }
+                    for (var element in sampleData) {
+                      element.isSelected = false;
+                    }
                     sampleData[index].isSelected = true;
                   });
                 },
@@ -388,6 +395,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         "http://complexprogrammer.uz/GetAnswers?question_id=${id.toString()}"));
     if (responseData.statusCode == 200) {
       final data = jsonDecode(responseData.body);
+      print(data);
       setState(() {
         for (Map<String, dynamic> i in data) {
           answers.add(Answer.fromJson(i));

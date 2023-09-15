@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tests/constants.dart';
 import 'package:flutter_tests/models/group.dart';
 
+import '../../group/group_screen.dart';
+
 class Backdrop extends StatelessWidget {
   const Backdrop({
     super.key,
@@ -61,7 +63,23 @@ class Backdrop extends StatelessWidget {
             ),
           ),
         ),
-        const SafeArea(child: BackButton())
+        // const SafeArea(child: BackButton())
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 5),
+          child: InkWell(
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => GroupScreen(),
+              ),
+            ),
+            child: const Icon(
+              Icons.arrow_back,
+              size: 24.0,
+              color: Colors.white,
+            ),
+          ),
+        ),
       ]),
     );
   }
