@@ -240,11 +240,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   List<RadioModel> sampleData = [];
   var loading = false;
   Answer? selectedRadio;
-  _MyStatefulWidgetState(
-    this.topic,
-    // this.togri_javoblar_soni,
-    // this.notogri_javoblar_soni,
-  );
+  _MyStatefulWidgetState(this.topic
+      // this.togri_javoblar_soni,
+      // this.notogri_javoblar_soni,
+      );
 
   Future<void> getData() async {
     setState(() {
@@ -261,7 +260,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         for (Map<String, dynamic> i in data) {
           questions.add(Question.fromJson(i));
         }
-        loadAswers(data[0]['id']);
+        loadAswers(Question.fromJson(data[0]));
         loading = false;
       });
     }
@@ -346,7 +345,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               );
             },
           ),
-          if (!loading)
+          if (!loading && questions.isNotEmpty)
             Pagination(
               paginateButtonStyles: PaginateButtonStyles(
                 // backgroundColor: Colors.pink,
@@ -373,7 +372,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               onPageChange: (number) {
                 player.play(UrlSource(
                     'https://complexprogrammer.uz/static/sounds/click.mp3'));
-                loadAswers(number);
+                print(questions[0].number);
+                loadAswers(questions.where((o) => o['number'] == number)[0]);
                 setState(() {
                   currentPage = number;
                 });
@@ -388,11 +388,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     }
   }
 
-  Future<void> loadAswers(int id) async {
+  Future<void> loadAswers(Question question) async {
     answers = [];
     sampleData = [];
     final responseData = await http.get(Uri.parse(
-        "http://complexprogrammer.uz/GetAnswers?question_id=${id.toString()}"));
+        "http://complexprogrammer.uz/GetAnswers?question_id=${question.id.toString()}"));
     if (responseData.statusCode == 200) {
       final data = jsonDecode(responseData.body);
       print(data);
