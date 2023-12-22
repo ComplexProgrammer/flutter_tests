@@ -32,6 +32,14 @@ class TopicCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
         child: Column(
           children: <Widget>[
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
+              child: Text(
+                topic.name_uz_uz,
+                style: Theme.of(context).textTheme.headline5,
+              ),
+            ),
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
@@ -44,14 +52,6 @@ class TopicCard extends StatelessWidget {
                         'https://complexprogrammer.uz/media/projects/tests/bino_${topic.number.toString()}.png'),
                   ),
                 ),
-              ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
-              child: Text(
-                topic.name_uz_uz,
-                style: Theme.of(context).textTheme.headline5,
               ),
             ),
           ],

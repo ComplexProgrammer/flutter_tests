@@ -255,12 +255,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     if (responseData.statusCode == 200) {
       final data = jsonDecode(responseData.body);
       print(data);
-      print(data[0]['id']);
       setState(() {
         for (Map<String, dynamic> i in data) {
           questions.add(Question.fromJson(i));
         }
-        loadAswers(Question.fromJson(data[0]));
+        if (questions.isNotEmpty) {
+          loadAswers(Question.fromJson(data[0]));
+        }
         loading = false;
       });
     }
@@ -373,14 +374,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 player.play(UrlSource(
                     'https://complexprogrammer.uz/static/sounds/click.mp3'));
                 print(questions[0].number);
-                loadAswers(questions.where((o) => o['number'] == number)[0]);
+                loadAswers(questions.firstWhere((it) => it.number == number));
                 setState(() {
                   currentPage = number;
                 });
               },
               useGroup: false,
               totalPage: questions.length,
-              show: 1,
+              show: questions.length - 1,
               currentPage: currentPage,
             ),
         ],
@@ -389,6 +390,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   }
 
   Future<void> loadAswers(Question question) async {
+    print(question.id);
     answers = [];
     sampleData = [];
     final responseData = await http.get(Uri.parse(
