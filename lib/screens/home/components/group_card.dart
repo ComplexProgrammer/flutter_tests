@@ -42,7 +42,7 @@ class GroupCard extends StatelessWidget {
               image: DecorationImage(
                 // fit: BoxFit.scaleDown,
                 image: NetworkImage(
-                    "https://complexprogrammer.uz/media/projects/tests/label_${group.number.toString()}.png"),
+                    "https://complexprogrammer.uz/media/tests/images/label_${group.number.toString()}.png"),
               ),
             ),
           ),

@@ -19,9 +19,11 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/group.dart';
+import '../question_screen.dart';
 
 int togri_javoblar_soni = 0;
 int notogri_javoblar_soni = 0;
+int all_question = 0;
 
 class Body extends StatelessWidget {
   final Topic topic;
@@ -126,7 +128,7 @@ class Body extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Belgilanmagan savollar:  ${10 - togri_javoblar_soni - notogri_javoblar_soni}',
+                          'Belgilanmagan savollar:  ${all_question - togri_javoblar_soni - notogri_javoblar_soni}',
                           style: TextStyle(
                             color: Colors.grey,
                           ),
@@ -162,14 +164,21 @@ class Body extends StatelessWidget {
                               shape: const StadiumBorder()),
                         ),
                         ElevatedButton.icon(
-                          onPressed: () {
-                            debugPrint('ElevatedButton Clicked');
-                          },
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => QuestionScreen(
+                                topic: topic,
+                                book: book,
+                                group: group,
+                              ),
+                            ),
+                          ),
                           icon: const Icon(
                             Icons.start,
                             size: 24.0,
                           ),
-                          label: const Text('Davom etish 2'),
+                          label: const Text('Keyingi biletga o`tish'),
                         ),
                       ],
                     ),
@@ -260,6 +269,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           questions.add(Question.fromJson(i));
         }
         if (questions.isNotEmpty) {
+          all_question = questions.length;
           loadAswers(Question.fromJson(data[0]));
         }
         loading = false;
@@ -296,6 +306,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   int currentPage = 1;
   int belgilanmagan = 0;
+  bool _enabled = false;
   @override
   Widget build(BuildContext context) {
     if (loading) {
@@ -316,32 +327,36 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             itemCount: sampleData.length,
             itemBuilder: (BuildContext context, int index) {
               return InkWell(
-                onTap: () {
-                  if (sampleData[index].isRight) {
-                    togri_javoblar_soni = togri_javoblar_soni + 1;
-                    player.play(
-                      UrlSource(
-                          'https://complexprogrammer.uz/static/sounds/right.mp3'),
-                    );
-                  } else {
-                    notogri_javoblar_soni++;
-                    player.play(
-                      UrlSource(
-                          'https://complexprogrammer.uz/static/sounds/wrong.mp3'),
-                    );
-                  }
-                  setState(() {
-                    for (var element in sampleData) {
-                      element.isRight
-                          ? element.isClick = true
-                          : element.isClick = false;
-                    }
-                    for (var element in sampleData) {
-                      element.isSelected = false;
-                    }
-                    sampleData[index].isSelected = true;
-                  });
-                },
+                onTap: _enabled
+                    ? () {
+                        _enabled = false;
+                        print("object" + _enabled.toString());
+                        if (sampleData[index].isRight) {
+                          togri_javoblar_soni = togri_javoblar_soni + 1;
+                          player.play(
+                            UrlSource(
+                                'https://complexprogrammer.uz/static/sounds/right.mp3'),
+                          );
+                        } else {
+                          notogri_javoblar_soni++;
+                          player.play(
+                            UrlSource(
+                                'https://complexprogrammer.uz/static/sounds/wrong.mp3'),
+                          );
+                        }
+                        setState(() {
+                          for (var element in sampleData) {
+                            element.isRight
+                                ? element.isClick = true
+                                : element.isClick = false;
+                          }
+                          for (var element in sampleData) {
+                            element.isSelected = false;
+                          }
+                          sampleData[index].isSelected = true;
+                        });
+                      }
+                    : null,
                 child: RadioItem(sampleData[index]),
               );
             },
@@ -374,6 +389,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 player.play(UrlSource(
                     'https://complexprogrammer.uz/static/sounds/click.mp3'));
                 print(questions[0].number);
+                _enabled = true;
                 loadAswers(questions.firstWhere((it) => it.number == number));
                 setState(() {
                   currentPage = number;
@@ -381,7 +397,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               },
               useGroup: false,
               totalPage: questions.length,
-              show: questions.length - 1,
+              show: 2,
               currentPage: currentPage,
             ),
         ],

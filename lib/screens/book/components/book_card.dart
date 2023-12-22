@@ -35,7 +35,7 @@ class BookCard extends StatelessWidget {
                   // image: DecorationImage(
                   //   fit: BoxFit.fill,
                   //   image: NetworkImage(
-                  //       'https://complexprogrammer.uz/media/projects/tests/${book.type}.png'),
+                  //       'https://complexprogrammer.uz/media/tests/images/${book.type}.png'),
                   // ),
                 ),
               ),

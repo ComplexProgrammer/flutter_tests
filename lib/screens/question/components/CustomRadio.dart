@@ -89,8 +89,20 @@ class RadioItem extends StatelessWidget {
             ),
           ),
           Container(
-            margin: const EdgeInsets.only(left: 10.0),
-            child: Text(_item.text),
+            margin: const EdgeInsets.only(left: 2.0),
+            child: Text(
+              _item.text,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: _item.isSelected
+                    ? _item.isRight
+                        ? Colors.greenAccent
+                        : Colors.redAccent
+                    : Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 10.0,
+              ),
+            ),
           )
         ],
       ),

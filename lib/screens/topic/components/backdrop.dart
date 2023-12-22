@@ -32,7 +32,7 @@ class Backdrop extends StatelessWidget {
             // image: DecorationImage(
             //   fit: BoxFit.fitHeight,
             //   image: NetworkImage(
-            //       'https://complexprogrammer.uz/media/projects/tests/${book.type}.png'),
+            //       'https://complexprogrammer.uz/media/tests/images/${book.type}.png'),
             // ),
           ),
         ),
