@@ -24,7 +24,7 @@ class _GroupCaruselState extends State<GroupCarousel> {
     });
 
     final responseData =
-        await http.get(Uri.parse("http://complexprogrammer.uz/GetGroups/"));
+        await http.get(Uri.parse("https://complexprogrammer.uz/GetGroups/"));
     if (responseData.statusCode == 200) {
       final data = jsonDecode(responseData.body);
       setState(() {
