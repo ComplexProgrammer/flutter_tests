@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tests/models/answer.dart';
 
 class CustomRadio extends StatefulWidget {
   @override
@@ -13,10 +14,6 @@ class CustomRadioState extends State<CustomRadio> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    sampleData.add(RadioModel(false, true, false, 'A', 'April 18'));
-    sampleData.add(RadioModel(false, false, false, 'B', 'April 17'));
-    sampleData.add(RadioModel(false, false, false, 'C', 'April 16'));
-    sampleData.add(RadioModel(false, false, false, 'D', 'April 15'));
   }
 
   @override
@@ -60,7 +57,7 @@ class RadioItem extends StatelessWidget {
             width: 50.0,
             decoration: BoxDecoration(
               color: _item.isSelected
-                  ? _item.isRight
+                  ? _item.answer.right
                       ? Colors.green
                       : Colors.red
                   : _item.isClick
@@ -69,7 +66,7 @@ class RadioItem extends StatelessWidget {
               border: Border.all(
                   width: 1.0,
                   color: _item.isSelected
-                      ? _item.isRight
+                      ? _item.answer.right
                           ? Colors.greenAccent
                           : Colors.redAccent
                       : Colors.grey),
@@ -91,11 +88,11 @@ class RadioItem extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(left: 2.0),
             child: Text(
-              _item.text,
+              _item.answer.name_uz_uz,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: _item.isSelected
-                    ? _item.isRight
+                    ? _item.answer.right
                         ? Colors.greenAccent
                         : Colors.redAccent
                     : Colors.black,
@@ -111,14 +108,11 @@ class RadioItem extends StatelessWidget {
 }
 
 class RadioModel {
+  Answer answer;
   bool isSelected;
-  bool isRight;
   bool isClick;
   final String buttonText;
-  final String text;
-
-  RadioModel(
-      this.isSelected, this.isRight, this.isClick, this.buttonText, this.text);
+  RadioModel(this.answer, this.isSelected, this.isClick, this.buttonText);
 }
 
 void main() {

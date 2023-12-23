@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 // import 'dart:html';
-
+import 'package:collection/collection.dart';
 import 'package:animations/animations.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
@@ -20,10 +20,42 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/group.dart';
 import '../question_screen.dart';
+import 'body.dart';
 
 int togri_javoblar_soni = 0;
 int notogri_javoblar_soni = 0;
 int all_question = 0;
+int time = 900;
+final minutes = 15;
+final seconds = 0;
+
+class selected_answer {
+  int topicId;
+  int questionId;
+  int answerId;
+  bool right;
+  int time;
+  selected_answer({
+    required this.topicId,
+    required this.questionId,
+    required this.answerId,
+    required this.right,
+    required this.time,
+  });
+  Map toJson() => {
+        'topicId': topicId,
+        'questionId': questionId,
+        'answerId': answerId,
+        'right': right,
+        'time': time,
+      };
+}
+
+Future<String> getStringValuesSF() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String stringValue = prefs.getString('javoblar') ?? '';
+  return stringValue;
+}
 
 class Body extends StatelessWidget {
   final Topic topic;
@@ -43,15 +75,11 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     togri_javoblar_soni = tjs;
     notogri_javoblar_soni = njs;
-    final minutes = 15;
-    final seconds = 0;
     Timer? countdownTimer;
     Duration myDuration = Duration(minutes: minutes, seconds: seconds);
     bool isPaused = false;
 
-    // final SharedPreferences prefs =
-    //     SharedPreferences.getInstance() as SharedPreferences;
-    // prefs.setStringList('javoblar', <String>['Earth', 'Moon', 'Sun']);
+    // prefs.setStringList('javoblar', <String>[]);
     // prefs.setString('javoblar', '');
 
     Size size = MediaQuery.of(context).size;
@@ -238,6 +266,70 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  // final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  late Future<String> _selected_answer;
+  List<selected_answer> selectedAnswers = [];
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  void checkJavoblar(SharedPreferences prefs) async {
+    // prefs.setStringList("javoblar", []);
+    // prefs.setString('selected_answers', '[]');
+    // final SharedPreferences prefs = await _prefs;
+    final String selected_answers = prefs.getString('selected_answers') ?? '[]';
+    final javoblar = prefs.getStringList('javoblar') ?? [];
+    print(selected_answers);
+    print(javoblar);
+    String arrayText =
+        '[{"topicId": 1,"questionId": 12, "answerId":1, "right": "true", "time":56 },{"topicId": 2,"questionId": 12, "answerId":1, "right": "true", "time":56 }]';
+
+    var tagsJson = jsonDecode(selected_answers);
+    List? tags = tagsJson != null ? List.from(tagsJson) : null;
+    for (var element in tags!) {
+      selectedAnswers.add(selected_answer(
+          topicId: element["topicId"],
+          questionId: element["questionId"],
+          answerId: element["answerId"],
+          right: element["right"],
+          time: element["time"]));
+      print(element);
+    }
+  }
+
+  Future<void> _incrementCounter(Answer answer) async {
+    selected_answer selectedAnswer = new selected_answer(
+        topicId: this.topic.id,
+        questionId: this.questions[currentPage - 1].id,
+        answerId: answer.id,
+        right: answer.right,
+        time: minutes);
+    String json = jsonEncode(selectedAnswer);
+    final SharedPreferences prefs = await _prefs;
+    setState(() {
+      if (selectedAnswers.isEmpty) {
+        selectedAnswers.add(selectedAnswer);
+        //selectedAnswers.insert(0, selectedAnswer);
+      } else {
+        // ignore: unrelated_type_equality_checks, unrelated_type_equality_checks
+        if (selectedAnswers.firstWhereOrNull(
+                (element) => element.questionId == selectedAnswer.questionId) ==
+            null) {
+          selectedAnswers.add(selectedAnswer);
+        }
+      }
+
+      prefs.setStringList("javoblar", [jsonEncode(selectedAnswers)]);
+      _selected_answer = prefs
+          .setString('selected_answers', jsonEncode(selectedAnswers))
+          .then((bool success) {
+        final String selected_answers =
+            prefs.getString('selected_answers') ?? '[]';
+        final javoblar = prefs.getStringList('javoblar') ?? [];
+        print(selected_answers);
+        print(javoblar);
+        return selectedAnswers.toString();
+      });
+    });
+  }
+
   final player = AudioPlayer();
   final Topic topic;
   // late int togri_javoblar_soni;
@@ -255,6 +347,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       );
 
   Future<void> getData() async {
+    final SharedPreferences prefs = await _prefs;
+    checkJavoblar(prefs);
     setState(() {
       loading = true;
     });
@@ -263,7 +357,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         "http://complexprogrammer.uz/GetQuestions?topic_id=${topic.id.toString()}"));
     if (responseData.statusCode == 200) {
       final data = jsonDecode(responseData.body);
-      print(data);
       setState(() {
         for (Map<String, dynamic> i in data) {
           questions.add(Question.fromJson(i));
@@ -275,16 +368,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         loading = false;
       });
     }
-    print(questions);
   }
 
   @override
   void initState() {
     super.initState();
-    // sampleData.add(new RadioModel(false, 'A', 'April 18'));
-    // sampleData.add(new RadioModel(false, 'B', 'April 17'));
-    // sampleData.add(new RadioModel(false, 'C', 'April 16'));
-    // sampleData.add(new RadioModel(false, 'D', 'April 15'));
     getData();
     _pageController = PageController(
       viewportFraction: 0.8,
@@ -306,7 +394,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   int currentPage = 1;
   int belgilanmagan = 0;
-  bool _enabled = false;
+  bool _enabled = true;
   @override
   Widget build(BuildContext context) {
     if (loading) {
@@ -330,8 +418,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 onTap: _enabled
                     ? () {
                         _enabled = false;
-                        print("object" + _enabled.toString());
-                        if (sampleData[index].isRight) {
+                        if (sampleData[index].answer.right) {
                           togri_javoblar_soni = togri_javoblar_soni + 1;
                           player.play(
                             UrlSource(
@@ -346,7 +433,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         }
                         setState(() {
                           for (var element in sampleData) {
-                            element.isRight
+                            element.answer.right
                                 ? element.isClick = true
                                 : element.isClick = false;
                           }
@@ -354,6 +441,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             element.isSelected = false;
                           }
                           sampleData[index].isSelected = true;
+                          _incrementCounter(sampleData[index].answer);
                         });
                       }
                     : null,
@@ -406,14 +494,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   }
 
   Future<void> loadAswers(Question question) async {
-    print(question.id);
     answers = [];
     sampleData = [];
     final responseData = await http.get(Uri.parse(
         "http://complexprogrammer.uz/GetAnswers?question_id=${question.id.toString()}"));
     if (responseData.statusCode == 200) {
       final data = jsonDecode(responseData.body);
-      print(data);
+
       setState(() {
         for (Map<String, dynamic> i in data) {
           answers.add(Answer.fromJson(i));
@@ -426,8 +513,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           if (index == 2) buttonText = 'B';
           if (index == 3) buttonText = 'C';
           if (index == 4) buttonText = 'D';
-          sampleData
-              .add(RadioModel(false, i.right, false, buttonText, i.name_uz_uz));
+          sampleData.add(RadioModel(i, false, false, buttonText));
         }
       });
     }
