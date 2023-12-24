@@ -1,3 +1,5 @@
+import 'package:flutter_tests/screens/question/components/body.dart';
+
 class Question {
   int id;
   String name_en_us;
@@ -6,6 +8,7 @@ class Question {
   String name_uz_uz;
   String image;
   int number;
+  selected_answer? selectedAnswer;
   Question({
     required this.id,
     required this.name_en_us,
@@ -14,6 +17,7 @@ class Question {
     required this.name_uz_uz,
     required this.image,
     required this.number,
+    required this.selectedAnswer,
   });
   factory Question.fromJson(Map<String, dynamic> json) => Question(
         id: json["id"],
@@ -23,6 +27,7 @@ class Question {
         name_uz_uz: json["name_uz_uz"],
         image: json["image"],
         number: json["number"],
+        selectedAnswer: json["selectedAnswer"],
       );
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -32,5 +37,6 @@ class Question {
         "name_uz_uz": name_uz_uz,
         "image": image,
         "number": number,
+        "selectedAnswer": selectedAnswer,
       };
 }

@@ -145,7 +145,7 @@ class Body extends StatelessWidget {
                       children: [
                         Text(
                           'To`g`ri javoblar: ${togri_javoblar_soni}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.greenAccent,
                           ),
                         ),
@@ -277,7 +277,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     final String selected_answers = prefs.getString('selected_answers') ?? '[]';
     final javoblar = prefs.getStringList('javoblar') ?? [];
     print(selected_answers);
-    print(javoblar);
     String arrayText =
         '[{"topicId": 1,"questionId": 12, "answerId":1, "right": "true", "time":56 },{"topicId": 2,"questionId": 12, "answerId":1, "right": "true", "time":56 }]';
 
@@ -294,7 +293,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     }
   }
 
-  Future<void> _incrementCounter(Answer answer) async {
+  Future<void> setAnswer(Answer answer) async {
     selected_answer selectedAnswer = new selected_answer(
         topicId: this.topic.id,
         questionId: this.questions[currentPage - 1].id,
@@ -324,7 +323,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             prefs.getString('selected_answers') ?? '[]';
         final javoblar = prefs.getStringList('javoblar') ?? [];
         print(selected_answers);
-        print(javoblar);
         return selectedAnswers.toString();
       });
     });
@@ -336,6 +334,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   // late int notogri_javoblar_soni;
   late PageController _pageController;
   int initalPage = 1;
+  int questionNumber = 0;
+  Question question = new Question(
+    id: 0,
+    name_en_us: '',
+    name_ru_ru: '',
+    name_uz_crl: '',
+    name_uz_uz: '',
+    image: '',
+    number: 0,
+    selectedAnswer: null,
+  );
   List<Question> questions = [];
   List<Answer> answers = [];
   List<RadioModel> sampleData = [];
@@ -358,12 +367,39 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     if (responseData.statusCode == 200) {
       final data = jsonDecode(responseData.body);
       setState(() {
+        int number = 0;
+        Question question = this.question;
+        List<Question> questions = this.questions;
+        List<selected_answer> selectedAnswers = this.selectedAnswers;
         for (Map<String, dynamic> i in data) {
+          question.selectedAnswer = null;
+          if (selectedAnswers.firstWhereOrNull(
+                  (element) => element.questionId == Question.fromJson(i).id) !=
+              null) {
+            question.selectedAnswer = selectedAnswers.firstWhere(
+                (element) => element.questionId == Question.fromJson(i).id);
+          }
+          if (question.selectedAnswer != null) {
+            //i.putIfAbsent('selectedAnswer', () => question.selectedAnswer);
+            i["selectedAnswer"] = question.selectedAnswer;
+          }
           questions.add(Question.fromJson(i));
         }
         if (questions.isNotEmpty) {
           all_question = questions.length;
-          loadAswers(Question.fromJson(data[0]));
+          questions.sort((a, b) {
+            return a.number - b.number;
+          });
+          for (var element in questions) {
+            if (element.number > number &&
+                number == element.number - 1 &&
+                // ignore: unrelated_type_equality_checks
+                element.selectedAnswer?.answerId != null) {
+              number = element.number;
+            }
+          }
+          questionNumber = number + 1;
+          setData(questionNumber);
         }
         loading = false;
       });
@@ -404,7 +440,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         children: [
           if (!loading && questions.isNotEmpty)
             Text(
-              questions[currentPage - 1].name_uz_uz.toString(),
+              question.name_uz_uz.toString(),
               style: const TextStyle(
                 color: Colors.grey,
                 fontSize: 24,
@@ -441,7 +477,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             element.isSelected = false;
                           }
                           sampleData[index].isSelected = true;
-                          _incrementCounter(sampleData[index].answer);
+                          setAnswer(sampleData[index].answer);
                         });
                       }
                     : null,
@@ -478,7 +514,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     'https://complexprogrammer.uz/static/sounds/click.mp3'));
                 print(questions[0].number);
                 _enabled = true;
-                loadAswers(questions.firstWhere((it) => it.number == number));
+                setData(number);
+                // loadAswers(questions
+                //     .firstWhere((it) => it.number == number)
+                //     .id
+                //     .toString());
                 setState(() {
                   currentPage = number;
                 });
@@ -493,11 +533,23 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     }
   }
 
-  Future<void> loadAswers(Question question) async {
+  Future<void> setData(int questionNumber) async {
+    question = questions.firstWhere((it) => it.number == questionNumber);
+    currentPage = question.number;
+    loadAswers(question.id.toString());
+    if (selectedAnswers
+            .firstWhereOrNull((element) => element.questionId == question.id) !=
+        null) {
+      question.selectedAnswer = selectedAnswers
+          .firstWhere((element) => element.questionId == question.id);
+    }
+  }
+
+  Future<void> loadAswers(String questionId) async {
     answers = [];
     sampleData = [];
     final responseData = await http.get(Uri.parse(
-        "http://complexprogrammer.uz/GetAnswers?question_id=${question.id.toString()}"));
+        "http://complexprogrammer.uz/GetAnswers?question_id=$questionId"));
     if (responseData.statusCode == 200) {
       final data = jsonDecode(responseData.body);
 
