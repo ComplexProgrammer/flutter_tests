@@ -27,7 +27,7 @@ int togri_javoblar_soni = 0;
 int notogri_javoblar_soni = 0;
 int all_question = 0;
 int time = 900;
-final int minutes = time / 60 as int;
+int minutes = 15;
 final seconds = 0;
 
 class selected_answer {
@@ -381,48 +381,48 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     } else {
       return Column(
         children: [
-          // if (!loading)
-          Pagination(
-            paginateButtonStyles: PaginateButtonStyles(
-              // backgroundColor: Colors.pink,
-              activeBackgroundColor: Colors.redAccent,
-              activeTextStyle: const TextStyle(
-                color: Colors.white,
-                fontSize: 24,
+          if (!loading && all_question > 0)
+            Pagination(
+              paginateButtonStyles: PaginateButtonStyles(
+                // backgroundColor: Colors.pink,
+                activeBackgroundColor: Colors.redAccent,
+                activeTextStyle: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
               ),
-            ),
-            prevButtonStyles: PaginateSkipButton(
-              // buttonBackgroundColor: Colors.orange,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20),
-                bottomLeft: Radius.circular(20),
+              prevButtonStyles: PaginateSkipButton(
+                // buttonBackgroundColor: Colors.orange,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  bottomLeft: Radius.circular(20),
+                ),
               ),
-            ),
-            nextButtonStyles: PaginateSkipButton(
-              // buttonBackgroundColor: Colors.purple,
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(20),
-                bottomRight: Radius.circular(20),
+              nextButtonStyles: PaginateSkipButton(
+                // buttonBackgroundColor: Colors.purple,
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
               ),
+              onPageChange: (number) {
+                player.play(UrlSource(
+                    'http://complexprogrammer.uz/static/sounds/click.mp3'));
+                setData(number);
+                if (question.selectedAnswer == null) {
+                  _enabled = true;
+                } else {
+                  _enabled = false;
+                }
+                setState(() {
+                  currentPage = number;
+                });
+              },
+              useGroup: false,
+              totalPage: all_question,
+              show: 2,
+              currentPage: currentPage,
             ),
-            onPageChange: (number) {
-              player.play(UrlSource(
-                  'http://complexprogrammer.uz/static/sounds/click.mp3'));
-              setData(number);
-              if (question.selectedAnswer == null) {
-                _enabled = true;
-              } else {
-                _enabled = false;
-              }
-              setState(() {
-                currentPage = number;
-              });
-            },
-            useGroup: false,
-            totalPage: all_question,
-            show: 2,
-            currentPage: currentPage,
-          ),
           Text(
             question.name_uz_uz.toString(),
             style: const TextStyle(
