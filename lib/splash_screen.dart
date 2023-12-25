@@ -27,7 +27,7 @@ class SplashApp extends StatelessWidget {
       //     ),
       //   ),
       //   image: Image.network(
-      //     'https://complexprogrammer.uz/static/img/icon_512.png',
+      //     'http://complexprogrammer.uz/static/img/icon_512.png',
       //   ),
       //   backgroundColor: Colors.lightBlue,
       // ),

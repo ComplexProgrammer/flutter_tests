@@ -29,11 +29,11 @@ class Backdrop extends StatelessWidget {
                 const BorderRadius.only(bottomLeft: Radius.circular(50)),
             boxShadow: const [kDefaultShadow],
             color: Color(0xFFF709080),
-            // image: DecorationImage(
-            //   fit: BoxFit.fitHeight,
-            //   image: NetworkImage(
-            //       'https://complexprogrammer.uz/media/tests/images/${book.type}.png'),
-            // ),
+            image: DecorationImage(
+              fit: BoxFit.fitHeight,
+              image: NetworkImage(
+                  'http://complexprogrammer.uz/media/${book.type__image}'),
+            ),
           ),
         ),
         Positioned(

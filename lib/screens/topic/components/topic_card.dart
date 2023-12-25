@@ -49,7 +49,7 @@ class TopicCard extends StatelessWidget {
                   image: DecorationImage(
                     fit: BoxFit.fill,
                     image: NetworkImage(
-                        'https://complexprogrammer.uz/media/tests/images/bino_${topic.number.toString()}.png'),
+                        'http://complexprogrammer.uz/media/${topic.image}'),
                   ),
                 ),
               ),

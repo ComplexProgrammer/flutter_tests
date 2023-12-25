@@ -30,7 +30,7 @@ class AnswerCard extends StatelessWidget {
                   image: const DecorationImage(
                     fit: BoxFit.fitHeight,
                     image: NetworkImage(
-                        'https://complexprogrammer.uz/static/img/school_tests_bg.png'),
+                        'http://complexprogrammer.uz/static/img/school_tests_bg.png'),
                   ),
                 ),
               ),

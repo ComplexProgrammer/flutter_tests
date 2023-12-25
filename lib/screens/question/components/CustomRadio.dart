@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tests/models/answer.dart';
+import 'package:flutter_tests/models/question.dart';
 
 class CustomRadio extends StatefulWidget {
   @override
@@ -56,13 +57,21 @@ class RadioItem extends StatelessWidget {
             height: 50.0,
             width: 50.0,
             decoration: BoxDecoration(
-              color: _item.isSelected
-                  ? _item.answer.right
-                      ? Colors.green
-                      : Colors.red
-                  : _item.isClick
-                      ? Colors.green
-                      : Colors.transparent,
+              color: _item.question.selectedAnswer != null
+                  ? _item.question.selectedAnswer?.answerId == _item.answer.id
+                      ? _item.question.selectedAnswer!.right
+                          ? Colors.green
+                          : Colors.red
+                      : _item.answer.right
+                          ? Colors.green
+                          : Colors.transparent
+                  : _item.isSelected
+                      ? _item.answer.right
+                          ? Colors.green
+                          : Colors.red
+                      : _item.correctAnswer
+                          ? Colors.green
+                          : Colors.transparent,
               border: Border.all(
                   width: 1.0,
                   color: _item.isSelected
@@ -108,11 +117,13 @@ class RadioItem extends StatelessWidget {
 }
 
 class RadioModel {
+  Question question;
   Answer answer;
   bool isSelected;
-  bool isClick;
+  bool correctAnswer;
   final String buttonText;
-  RadioModel(this.answer, this.isSelected, this.isClick, this.buttonText);
+  RadioModel(this.question, this.answer, this.isSelected, this.correctAnswer,
+      this.buttonText);
 }
 
 void main() {

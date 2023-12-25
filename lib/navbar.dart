@@ -17,7 +17,7 @@ class NavBar extends StatelessWidget {
               backgroundColor: Colors.lightBlueAccent,
               child: ClipOval(
                 child: Image.network(
-                  'https://complexprogrammer.uz/static/img/man-icon.png',
+                  'http://complexprogrammer.uz/static/img/man-icon.png',
                 ),
               ),
             ),
@@ -25,7 +25,7 @@ class NavBar extends StatelessWidget {
               color: Colors.blueAccent,
               // image: DecorationImage(
               //   image: NetworkImage(
-              //     'https://complexprogrammer.uz/static/img/C0mplex.png',
+              //     'http://complexprogrammer.uz/static/img/C0mplex.png',
               //   ),
               //   fit: BoxFit.fill,
               // ),

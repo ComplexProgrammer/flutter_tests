@@ -5,6 +5,7 @@ class Group {
   String? name_uz_crl;
   String? name_uz_uz;
   int? number;
+  String? image;
   Group({
     required this.id,
     this.name_en_us,
@@ -12,6 +13,7 @@ class Group {
     this.name_uz_crl,
     this.name_uz_uz,
     this.number,
+    this.image,
   });
   factory Group.fromJson(Map<String, dynamic> json) => Group(
         id: json["id"],
@@ -20,6 +22,7 @@ class Group {
         name_uz_crl: json["name_uz_crl"],
         name_uz_uz: json["name_uz_uz"],
         number: json["number"],
+        image: json["image"],
       );
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -28,5 +31,6 @@ class Group {
         "name_uz_crl": name_uz_crl,
         "name_uz_uz": name_uz_uz,
         "number": number,
+        "image": image,
       };
 }

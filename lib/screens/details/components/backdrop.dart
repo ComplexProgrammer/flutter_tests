@@ -25,7 +25,7 @@ class Backdrop extends StatelessWidget {
             image: DecorationImage(
               fit: BoxFit.cover,
               image: NetworkImage(
-                  'https://complexprogrammer.uz/static/img/school_tests_bg.png'),
+                  'http://complexprogrammer.uz/static/img/school_tests_bg.png'),
             ),
           ),
         ),

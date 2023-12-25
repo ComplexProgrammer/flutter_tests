@@ -14,6 +14,7 @@ import 'package:flutter_tests/models/question.dart';
 import 'package:flutter_tests/models/topic.dart';
 import 'package:flutter_tests/screens/question/components/CustomRadio.dart';
 import 'package:flutter_tests/screens/question/components/backdrop.dart';
+import 'package:flutter_tests/screens/question/components/time.dart';
 import 'package:flutter_tests/screens/topic/topic_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,7 +27,7 @@ int togri_javoblar_soni = 0;
 int notogri_javoblar_soni = 0;
 int all_question = 0;
 int time = 900;
-final minutes = 15;
+final int minutes = time / 60 as int;
 final seconds = 0;
 
 class selected_answer {
@@ -49,12 +50,6 @@ class selected_answer {
         'right': right,
         'time': time,
       };
-}
-
-Future<String> getStringValuesSF() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String stringValue = prefs.getString('javoblar') ?? '';
-  return stringValue;
 }
 
 class Body extends StatelessWidget {
@@ -87,43 +82,10 @@ class Body extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Backdrop(size: size, topic: topic),
-          TweenAnimationBuilder<Duration>(
-              duration: Duration(
-                minutes: minutes,
-                seconds: seconds,
-              ),
-              tween: Tween(
-                  begin: Duration(
-                    minutes: minutes,
-                    seconds: seconds,
-                  ),
-                  end: Duration.zero),
-              onEnd: () {
-                print('Timer ended');
-              },
-              builder: (BuildContext context, Duration value, Widget? child) {
-                final minutes = value.inMinutes;
-                final seconds = value.inSeconds % 60;
-                var sec =
-                    seconds.toString().length == 1 ? '0$seconds' : '$seconds';
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 1),
-                  child: Text(
-                    '$minutes:$sec',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30),
-                  ),
-                );
-              }),
+          Time(minutes: minutes, seconds: seconds),
           Padding(
             padding: const EdgeInsets.all(kDefaultPadding / 10),
-            child: MyStatefulWidget(topic: topic
-                // togri_javoblar_soni: togri_javoblar_soni,
-                // notogri_javoblar_soni: notogri_javoblar_soni
-                ),
+            child: MyStatefulWidget(topic: topic),
           ),
           Padding(
             padding: const EdgeInsets.all(kDefaultPadding / 10),
@@ -191,28 +153,28 @@ class Body extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                               shape: const StadiumBorder()),
                         ),
-                        ElevatedButton.icon(
-                          onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => QuestionScreen(
-                                topic: topic,
-                                book: book,
-                                group: group,
-                              ),
-                            ),
-                          ),
-                          icon: const Icon(
-                            Icons.start,
-                            size: 24.0,
-                          ),
-                          label: const Text('Keyingi biletga o`tish'),
-                        ),
+                        // ElevatedButton.icon(
+                        //   onPressed: () => Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (context) => QuestionScreen(
+                        //         topic: topic,
+                        //         book: book,
+                        //         group: group,
+                        //       ),
+                        //     ),
+                        //   ),
+                        //   icon: const Icon(
+                        //     Icons.start,
+                        //     size: 24.0,
+                        //   ),
+                        //   label: const Text('Keyingi biletga o`tish'),
+                        // ),
                       ],
                     ),
                     // content: const Image(
                     //   image: NetworkImage(
-                    //       'https://complexprogrammer.uz/static/img/school_tests_bg.png'),
+                    //       'http://complexprogrammer.uz/static/img/school_tests_bg.png'),
                     // ),
                     // actions: [
                     //   TextButton(
@@ -248,21 +210,10 @@ class Body extends StatelessWidget {
 
 class MyStatefulWidget extends StatefulWidget {
   final Topic topic;
-  // final int togri_javoblar_soni;
-  // final int notogri_javoblar_soni;
-  const MyStatefulWidget({
-    super.key,
-    required this.topic,
-    // required this.togri_javoblar_soni,
-    // required this.notogri_javoblar_soni,
-  });
+  const MyStatefulWidget({super.key, required this.topic});
 
   @override
-  State<MyStatefulWidget> createState() => _MyStatefulWidgetState(
-        topic,
-        // togri_javoblar_soni,
-        // notogri_javoblar_soni,
-      );
+  State<MyStatefulWidget> createState() => _MyStatefulWidgetState(topic);
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
@@ -275,11 +226,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     // prefs.setString('selected_answers', '[]');
     // final SharedPreferences prefs = await _prefs;
     final String selected_answers = prefs.getString('selected_answers') ?? '[]';
-    final javoblar = prefs.getStringList('javoblar') ?? [];
     print(selected_answers);
-    String arrayText =
-        '[{"topicId": 1,"questionId": 12, "answerId":1, "right": "true", "time":56 },{"topicId": 2,"questionId": 12, "answerId":1, "right": "true", "time":56 }]';
-
     var tagsJson = jsonDecode(selected_answers);
     List? tags = tagsJson != null ? List.from(tagsJson) : null;
     for (var element in tags!) {
@@ -289,14 +236,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           answerId: element["answerId"],
           right: element["right"],
           time: element["time"]));
-      print(element);
     }
   }
 
   Future<void> setAnswer(Answer answer) async {
     selected_answer selectedAnswer = new selected_answer(
         topicId: this.topic.id,
-        questionId: this.questions[currentPage - 1].id,
+        questionId: this.question.id,
         answerId: answer.id,
         right: answer.right,
         time: minutes);
@@ -305,7 +251,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     setState(() {
       if (selectedAnswers.isEmpty) {
         selectedAnswers.add(selectedAnswer);
-        //selectedAnswers.insert(0, selectedAnswer);
       } else {
         // ignore: unrelated_type_equality_checks, unrelated_type_equality_checks
         if (selectedAnswers.firstWhereOrNull(
@@ -314,15 +259,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           selectedAnswers.add(selectedAnswer);
         }
       }
-
-      prefs.setStringList("javoblar", [jsonEncode(selectedAnswers)]);
       _selected_answer = prefs
           .setString('selected_answers', jsonEncode(selectedAnswers))
           .then((bool success) {
-        final String selected_answers =
-            prefs.getString('selected_answers') ?? '[]';
-        final javoblar = prefs.getStringList('javoblar') ?? [];
-        print(selected_answers);
         return selectedAnswers.toString();
       });
     });
@@ -330,8 +269,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   final player = AudioPlayer();
   final Topic topic;
-  // late int togri_javoblar_soni;
-  // late int notogri_javoblar_soni;
   late PageController _pageController;
   int initalPage = 1;
   int questionNumber = 0;
@@ -350,10 +287,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   List<RadioModel> sampleData = [];
   var loading = false;
   Answer? selectedRadio;
-  _MyStatefulWidgetState(this.topic
-      // this.togri_javoblar_soni,
-      // this.notogri_javoblar_soni,
-      );
+  _MyStatefulWidgetState(this.topic);
 
   Future<void> getData() async {
     final SharedPreferences prefs = await _prefs;
@@ -368,6 +302,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       final data = jsonDecode(responseData.body);
       setState(() {
         int number = 0;
+        int togri_javob_soni = 0;
+        int notogri_javob_soni = 0;
         Question question = this.question;
         List<Question> questions = this.questions;
         List<selected_answer> selectedAnswers = this.selectedAnswers;
@@ -380,7 +316,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 (element) => element.questionId == Question.fromJson(i).id);
           }
           if (question.selectedAnswer != null) {
-            //i.putIfAbsent('selectedAnswer', () => question.selectedAnswer);
             i["selectedAnswer"] = question.selectedAnswer;
           }
           questions.add(Question.fromJson(i));
@@ -393,12 +328,20 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           for (var element in questions) {
             if (element.number > number &&
                 number == element.number - 1 &&
-                // ignore: unrelated_type_equality_checks
                 element.selectedAnswer?.answerId != null) {
               number = element.number;
             }
+            if (element.selectedAnswer != null) {
+              if (element.selectedAnswer!.right) {
+                togri_javob_soni = togri_javob_soni + 1;
+              } else {
+                notogri_javob_soni = notogri_javob_soni + 1;
+              }
+            }
           }
           questionNumber = number + 1;
+          togri_javoblar_soni = togri_javob_soni;
+          notogri_javoblar_soni = notogri_javob_soni;
           setData(questionNumber);
         }
         loading = false;
@@ -438,14 +381,55 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     } else {
       return Column(
         children: [
-          if (!loading && questions.isNotEmpty)
-            Text(
-              question.name_uz_uz.toString(),
-              style: const TextStyle(
-                color: Colors.grey,
+          // if (!loading)
+          Pagination(
+            paginateButtonStyles: PaginateButtonStyles(
+              // backgroundColor: Colors.pink,
+              activeBackgroundColor: Colors.redAccent,
+              activeTextStyle: const TextStyle(
+                color: Colors.white,
                 fontSize: 24,
               ),
             ),
+            prevButtonStyles: PaginateSkipButton(
+              // buttonBackgroundColor: Colors.orange,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20),
+                bottomLeft: Radius.circular(20),
+              ),
+            ),
+            nextButtonStyles: PaginateSkipButton(
+              // buttonBackgroundColor: Colors.purple,
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(20),
+                bottomRight: Radius.circular(20),
+              ),
+            ),
+            onPageChange: (number) {
+              player.play(UrlSource(
+                  'http://complexprogrammer.uz/static/sounds/click.mp3'));
+              setData(number);
+              if (question.selectedAnswer == null) {
+                _enabled = true;
+              } else {
+                _enabled = false;
+              }
+              setState(() {
+                currentPage = number;
+              });
+            },
+            useGroup: false,
+            totalPage: all_question,
+            show: 2,
+            currentPage: currentPage,
+          ),
+          Text(
+            question.name_uz_uz.toString(),
+            style: const TextStyle(
+              color: Colors.grey,
+              fontSize: 24,
+            ),
+          ),
           ListView.builder(
             shrinkWrap: true,
             itemCount: sampleData.length,
@@ -458,20 +442,20 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                           togri_javoblar_soni = togri_javoblar_soni + 1;
                           player.play(
                             UrlSource(
-                                'https://complexprogrammer.uz/static/sounds/right.mp3'),
+                                'http://complexprogrammer.uz/static/sounds/right.mp3'),
                           );
                         } else {
                           notogri_javoblar_soni++;
                           player.play(
                             UrlSource(
-                                'https://complexprogrammer.uz/static/sounds/wrong.mp3'),
+                                'http://complexprogrammer.uz/static/sounds/wrong.mp3'),
                           );
                         }
                         setState(() {
                           for (var element in sampleData) {
                             element.answer.right
-                                ? element.isClick = true
-                                : element.isClick = false;
+                                ? element.correctAnswer = true
+                                : element.correctAnswer = false;
                           }
                           for (var element in sampleData) {
                             element.isSelected = false;
@@ -485,55 +469,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               );
             },
           ),
-          if (!loading && questions.isNotEmpty)
-            Pagination(
-              paginateButtonStyles: PaginateButtonStyles(
-                // backgroundColor: Colors.pink,
-                activeBackgroundColor: Colors.redAccent,
-                activeTextStyle: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-              prevButtonStyles: PaginateSkipButton(
-                // buttonBackgroundColor: Colors.orange,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  bottomLeft: Radius.circular(20),
-                ),
-              ),
-              nextButtonStyles: PaginateSkipButton(
-                // buttonBackgroundColor: Colors.purple,
-                borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
-              ),
-              onPageChange: (number) {
-                player.play(UrlSource(
-                    'https://complexprogrammer.uz/static/sounds/click.mp3'));
-                print(questions[0].number);
-                _enabled = true;
-                setData(number);
-                // loadAswers(questions
-                //     .firstWhere((it) => it.number == number)
-                //     .id
-                //     .toString());
-                setState(() {
-                  currentPage = number;
-                });
-              },
-              useGroup: false,
-              totalPage: questions.length,
-              show: 2,
-              currentPage: currentPage,
-            ),
         ],
       );
     }
   }
 
-  Future<void> setData(int questionNumber) async {
+  void setData(int questionNumber) {
     question = questions.firstWhere((it) => it.number == questionNumber);
     currentPage = question.number;
     loadAswers(question.id.toString());
@@ -565,7 +506,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           if (index == 2) buttonText = 'B';
           if (index == 3) buttonText = 'C';
           if (index == 4) buttonText = 'D';
-          sampleData.add(RadioModel(i, false, false, buttonText));
+          sampleData.add(RadioModel(question, i, false, false, buttonText));
         }
       });
     }
