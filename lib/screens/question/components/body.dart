@@ -272,7 +272,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   late PageController _pageController;
   int initalPage = 1;
   int questionNumber = 0;
-  Question question = new Question(
+  Question question = Question(
     id: 0,
     name_en_us: '',
     name_ru_ru: '',

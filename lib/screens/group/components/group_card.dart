@@ -41,11 +41,18 @@ class GroupCard extends StatelessWidget {
               boxShadow: const [kDefaultShadow],
               // color: Colors.black.withOpacity(0.0),
               color: Color(0xFFF909080),
-              image: DecorationImage(
-                fit: BoxFit.contain,
-                image: NetworkImage(
-                    "http://complexprogrammer.uz/media/${group.image}"),
-              ),
+              image: group.image != ''
+                  ? DecorationImage(
+                      fit: BoxFit.contain,
+                      image: NetworkImage(
+                          "http://complexprogrammer.uz/media/${group.image}"),
+                    )
+                  : const DecorationImage(
+                      fit: BoxFit.fill,
+                      image: AssetImage(
+                        'assets/images/img.png',
+                      ),
+                    ),
             ),
           ),
         ),

@@ -45,12 +45,18 @@ class TopicCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
                   boxShadow: const [kDefaultShadow],
-                  color: Color(0xFFF709090),
-                  image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: NetworkImage(
-                        'http://complexprogrammer.uz/media/${topic.image}'),
-                  ),
+                  color: const Color(0xfff709090),
+                  image: topic.image != ''
+                      ? DecorationImage(
+                          fit: BoxFit.fill,
+                          image: NetworkImage(
+                              'http://complexprogrammer.uz/media/${topic.image}'))
+                      : const DecorationImage(
+                          fit: BoxFit.fill,
+                          image: AssetImage(
+                            'assets/images/img.png',
+                          ),
+                        ),
                 ),
               ),
             ),

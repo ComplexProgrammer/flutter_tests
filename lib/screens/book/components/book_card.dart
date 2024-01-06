@@ -32,11 +32,18 @@ class BookCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(50),
                   boxShadow: const [kDefaultShadow],
                   color: Color(0xFFF709080),
-                  image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: NetworkImage(
-                        'http://complexprogrammer.uz/media/${book.type__image}'),
-                  ),
+                  image: book.type__image != ''
+                      ? DecorationImage(
+                          fit: BoxFit.fill,
+                          image: NetworkImage(
+                              'http://complexprogrammer.uz/media/${book.type__image}'),
+                        )
+                      : const DecorationImage(
+                          fit: BoxFit.fill,
+                          image: AssetImage(
+                            'assets/images/img.png',
+                          ),
+                        ),
                 ),
               ),
             ),
