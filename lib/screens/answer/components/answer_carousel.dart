@@ -66,6 +66,7 @@ class _AnswerCaruselState extends State<AnswerCarousel> {
       child: AspectRatio(
         aspectRatio: 0.85,
         child: PageView.builder(
+          scrollBehavior: AppScrollBehavior(),
           onPageChanged: (value) {
             setState(() {
               initalPage = value;

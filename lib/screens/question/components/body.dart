@@ -438,19 +438,24 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 onTap: _enabled
                     ? () {
                         _enabled = false;
-                        if (sampleData[index].answer.right) {
-                          togri_javoblar_soni = togri_javoblar_soni + 1;
-                          player.play(
-                            UrlSource(
-                                'http://complexprogrammer.uz/static/sounds/right.mp3'),
-                          );
-                        } else {
-                          notogri_javoblar_soni++;
-                          player.play(
-                            UrlSource(
-                                'http://complexprogrammer.uz/static/sounds/wrong.mp3'),
-                          );
+                        try {
+                          if (sampleData[index].answer.right) {
+                            togri_javoblar_soni = togri_javoblar_soni + 1;
+                            player.play(
+                              UrlSource(
+                                  'http://complexprogrammer.uz/static/sounds/right.mp3'),
+                            );
+                          } else {
+                            notogri_javoblar_soni++;
+                            player.play(
+                              UrlSource(
+                                  'http://complexprogrammer.uz/static/sounds/wrong.mp3'),
+                            );
+                          }
+                        } on Exception catch (_) {
+                          print('sound play error');
                         }
+
                         setState(() {
                           for (var element in sampleData) {
                             element.answer.right

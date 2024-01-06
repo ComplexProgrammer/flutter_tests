@@ -71,6 +71,7 @@ class _TopicCaruselState extends State<TopicCarousel> {
             child: AspectRatio(
               aspectRatio: 0.85,
               child: PageView.builder(
+                scrollBehavior: AppScrollBehavior(),
                 onPageChanged: (value) {
                   setState(() {
                     initalPage = value;

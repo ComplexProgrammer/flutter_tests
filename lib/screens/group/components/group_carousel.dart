@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 import 'dart:math' as math;
 
 class GroupCarousel extends StatefulWidget {
+  const GroupCarousel({super.key});
+
   @override
   _GroupCaruselState createState() => _GroupCaruselState();
 }
@@ -59,8 +61,9 @@ class _GroupCaruselState extends State<GroupCarousel> {
         : Padding(
             padding: const EdgeInsets.symmetric(vertical: kDefaultPadding),
             child: AspectRatio(
-              aspectRatio: 0.85,
+              aspectRatio: 1.05,
               child: PageView.builder(
+                scrollBehavior: AppScrollBehavior(),
                 onPageChanged: (value) {
                   setState(() {
                     initalPage = value;
