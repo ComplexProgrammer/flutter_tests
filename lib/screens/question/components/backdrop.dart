@@ -27,8 +27,7 @@ class Backdrop extends StatelessWidget {
             image: topic.image != ''
                 ? DecorationImage(
                     fit: BoxFit.fitHeight,
-                    image: NetworkImage(
-                        'http://complexprogrammer.uz/media/${topic.image}'),
+                    image: NetworkImage('$baseUrl/media/${topic.image}'),
                   )
                 : const DecorationImage(
                     fit: BoxFit.fill,

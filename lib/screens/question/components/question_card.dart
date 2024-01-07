@@ -29,8 +29,8 @@ class QuestionCard extends StatelessWidget {
                   boxShadow: const [kDefaultShadow],
                   image: const DecorationImage(
                     fit: BoxFit.fill,
-                    image: NetworkImage(
-                        'http://complexprogrammer.uz/static/img/school_tests_bg.png'),
+                    image:
+                        NetworkImage('$baseUrl/static/img/school_tests_bg.png'),
                   ),
                 ),
               ),

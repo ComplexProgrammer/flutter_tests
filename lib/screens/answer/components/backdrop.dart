@@ -24,8 +24,7 @@ class Backdrop extends StatelessWidget {
             boxShadow: [kDefaultShadow],
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: NetworkImage(
-                  'http://complexprogrammer.uz/static/img/school_tests_bg.png'),
+              image: NetworkImage('$baseUrl/static/img/school_tests_bg.png'),
             ),
           ),
         ),

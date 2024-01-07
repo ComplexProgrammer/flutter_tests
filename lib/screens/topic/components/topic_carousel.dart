@@ -33,8 +33,8 @@ class _TopicCaruselState extends State<TopicCarousel> {
       loading = true;
     });
 
-    final responseData = await http.get(Uri.parse(
-        "http://complexprogrammer.uz/GetTopics?book_id=${book.id.toString()}"));
+    final responseData = await http
+        .get(Uri.parse("$baseUrl/GetTopics?book_id=${book.id.toString()}"));
     if (responseData.statusCode == 200) {
       final data = jsonDecode(responseData.body);
       setState(() {

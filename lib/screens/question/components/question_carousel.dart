@@ -30,8 +30,8 @@ class _QuestionCaruselState extends State<QuestionCarousel> {
       loading = true;
     });
 
-    final responseData = await http.get(Uri.parse(
-        "http://complexprogrammer.uz/GetQuestions?topic_id=${topic.id.toString()}"));
+    final responseData = await http.get(
+        Uri.parse("$baseUrl/GetQuestions?topic_id=${topic.id.toString()}"));
     if (responseData.statusCode == 200) {
       final data = jsonDecode(responseData.body);
       setState(() {

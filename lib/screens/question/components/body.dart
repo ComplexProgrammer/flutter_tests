@@ -174,7 +174,7 @@ class Body extends StatelessWidget {
                     ),
                     // content: const Image(
                     //   image: NetworkImage(
-                    //       'http://complexprogrammer.uz/static/img/school_tests_bg.png'),
+                    //       '$baseUrl/static/img/school_tests_bg.png'),
                     // ),
                     // actions: [
                     //   TextButton(
@@ -296,8 +296,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       loading = true;
     });
     questions = [];
-    final responseData = await http.get(Uri.parse(
-        "http://complexprogrammer.uz/GetQuestions?topic_id=${topic.id.toString()}"));
+    final responseData = await http.get(
+        Uri.parse("$baseUrl/GetQuestions?topic_id=${topic.id.toString()}"));
     if (responseData.statusCode == 200) {
       final data = jsonDecode(responseData.body);
       setState(() {
@@ -406,8 +406,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 ),
               ),
               onPageChange: (number) {
-                player.play(UrlSource(
-                    'http://complexprogrammer.uz/static/sounds/click.mp3'));
+                player.play(UrlSource('$baseUrl/static/sounds/click.mp3'));
                 setData(number);
                 if (question.selectedAnswer == null) {
                   _enabled = true;
@@ -442,14 +441,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                           if (sampleData[index].answer.right) {
                             togri_javoblar_soni = togri_javoblar_soni + 1;
                             player.play(
-                              UrlSource(
-                                  'http://complexprogrammer.uz/static/sounds/right.mp3'),
+                              UrlSource('$baseUrl/static/sounds/right.mp3'),
                             );
                           } else {
                             notogri_javoblar_soni++;
                             player.play(
-                              UrlSource(
-                                  'http://complexprogrammer.uz/static/sounds/wrong.mp3'),
+                              UrlSource('$baseUrl/static/sounds/wrong.mp3'),
                             );
                           }
                         } on Exception catch (_) {
@@ -494,8 +491,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Future<void> loadAswers(String questionId) async {
     answers = [];
     sampleData = [];
-    final responseData = await http.get(Uri.parse(
-        "http://complexprogrammer.uz/GetAnswers?question_id=$questionId"));
+    final responseData = await http
+        .get(Uri.parse("$baseUrl/GetAnswers?question_id=$questionId"));
     if (responseData.statusCode == 200) {
       final data = jsonDecode(responseData.body);
 

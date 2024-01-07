@@ -42,7 +42,7 @@ class GroupCard extends StatelessWidget {
               image: DecorationImage(
                 // fit: BoxFit.scaleDown,
                 image: NetworkImage(
-                    "http://complexprogrammer.uz/media/tests/images/label_${group.number.toString()}.png"),
+                    "$baseUrl/media/tests/images/label_${group.number.toString()}.png"),
               ),
             ),
           ),
@@ -58,7 +58,7 @@ class GroupCard extends StatelessWidget {
         //   mainAxisAlignment: MainAxisAlignment.center,
         //   children: [
         //     Image.network(
-        //       'http://complexprogrammer.uz/static/img/school_tests_bg.png',
+        //       '$baseUrl/static/img/school_tests_bg.png',
         //       height: 20,
         //     ),
         //     const SizedBox(

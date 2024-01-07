@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tests/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class NavBar extends StatelessWidget {
@@ -17,7 +18,7 @@ class NavBar extends StatelessWidget {
               backgroundColor: Colors.lightBlueAccent,
               child: ClipOval(
                 child: Image.network(
-                  'http://complexprogrammer.uz/static/img/man-icon.png',
+                  '$baseUrl/static/img/man-icon.png',
                 ),
               ),
             ),
@@ -25,7 +26,7 @@ class NavBar extends StatelessWidget {
               color: Colors.blueAccent,
               // image: DecorationImage(
               //   image: NetworkImage(
-              //     'http://complexprogrammer.uz/static/img/C0mplex.png',
+              //     '$baseUrl/static/img/C0mplex.png',
               //   ),
               //   fit: BoxFit.fill,
               // ),

@@ -36,7 +36,7 @@ class BookCard extends StatelessWidget {
                       ? DecorationImage(
                           fit: BoxFit.fill,
                           image: NetworkImage(
-                              'http://complexprogrammer.uz/media/${book.type__image}'),
+                              '$baseUrl/media/${book.type__image}'),
                         )
                       : const DecorationImage(
                           fit: BoxFit.fill,

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "619253332200",
+    "project_id": "schooltests-525a3",
+    "storage_bucket": "schooltests-525a3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619253332200:android:8c0deee89ca842bc81f15d",
+        "android_client_info": {
+          "package_name": "com.example.flutter_tests"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbpUrySRnLZWgiBNrXHGDqcDyOp3wCc5I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

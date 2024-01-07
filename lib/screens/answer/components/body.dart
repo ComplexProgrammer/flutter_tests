@@ -68,8 +68,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       loading = true;
     });
 
-    final responseData = await http.get(Uri.parse(
-        "http://complexprogrammer.uz/GetAnswers?question_id=${question.id.toString()}"));
+    final responseData = await http.get(
+        Uri.parse("$baseUrl/GetAnswers?question_id=${question.id.toString()}"));
     if (responseData.statusCode == 200) {
       final data = jsonDecode(responseData.body);
       setState(() {

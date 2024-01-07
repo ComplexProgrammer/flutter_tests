@@ -49,8 +49,7 @@ class TopicCard extends StatelessWidget {
                   image: topic.image != ''
                       ? DecorationImage(
                           fit: BoxFit.fill,
-                          image: NetworkImage(
-                              'http://complexprogrammer.uz/media/${topic.image}'))
+                          image: NetworkImage('$baseUrl/media/${topic.image}'))
                       : const DecorationImage(
                           fit: BoxFit.fill,
                           image: AssetImage(

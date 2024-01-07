@@ -44,8 +44,7 @@ class GroupCard extends StatelessWidget {
               image: group.image != ''
                   ? DecorationImage(
                       fit: BoxFit.contain,
-                      image: NetworkImage(
-                          "http://complexprogrammer.uz/media/${group.image}"),
+                      image: NetworkImage("$baseUrl/media/${group.image}"),
                     )
                   : const DecorationImage(
                       fit: BoxFit.fill,
@@ -67,7 +66,7 @@ class GroupCard extends StatelessWidget {
         //   mainAxisAlignment: MainAxisAlignment.center,
         //   children: [
         //     Image.network(
-        //       'http://complexprogrammer.uz/static/img/school_tests_bg.png',
+        //       '$baseUrl/static/img/school_tests_bg.png',
         //       height: 20,
         //     ),
         //     const SizedBox(
