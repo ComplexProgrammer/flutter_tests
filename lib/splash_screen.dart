@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tests/main.dart';
 import 'package:flutter_tests/screens/group/group_screen.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 // import 'package:splashscreen/splashscreen.dart';
-
 class SplashApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
