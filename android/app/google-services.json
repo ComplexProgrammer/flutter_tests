@@ -1,44 +1,26 @@
 {
   "project_info": {
-    "project_number": "141324625308",
-    "project_id": "pitakda-e0142",
-    "storage_bucket": "pitakda-e0142.appspot.com"
+    "project_number": "968321072915",
+    "project_id": "schooltests1",
+    "storage_bucket": "schooltests1.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:141324625308:android:7e6b4190af2d00c98b9459",
+        "mobilesdk_app_id": "1:968321072915:android:d9cd3c2e89b80c4291a4e6",
         "android_client_info": {
           "package_name": "com.example.flutter_tests"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "141324625308-m8lftcef2tfivjjg33ne8esunu6pe9cq.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.flutter_tests",
-            "certificate_hash": "7e215a7335249217b9121961dc58661f70dd8dc6"
-          }
-        },
-        {
-          "client_id": "141324625308-u5ss9rf6vndjls4prv0htg3q9u5f1u7m.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBC95aMOzpylZ4L0960-5ZjA0R7i_krxW8"
+          "current_key": "AIzaSyChYMS1zG_XSMekShx8x22-A6GTkugK2B8"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "141324625308-u5ss9rf6vndjls4prv0htg3q9u5f1u7m.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
