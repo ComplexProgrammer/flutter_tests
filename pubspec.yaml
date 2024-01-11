@@ -52,7 +52,7 @@ dependencies:
   firebase_core: ^2.24.2
   firebase_analytics: ^10.4.3
   firebase_messaging: ^14.6.4
-  firebase_auth:
+  # firebase_auth:
   google_mobile_ads: ^4.0.0
   native_ads_flutter: ^1.0.7
   firebase_crashlytics: ^3.4.9

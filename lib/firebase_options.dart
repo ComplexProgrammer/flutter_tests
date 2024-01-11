@@ -3,6 +3,28 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'dart:io' show Platform;
+
+class PlatformUtils {
+  static bool get isMobile {
+    if (kIsWeb) {
+      return false;
+    } else {
+      return Platform.isIOS || Platform.isAndroid;
+    }
+  }
+
+  static bool get isDesktop {
+    if (kIsWeb) {
+      return false;
+    } else {
+      return Platform.isLinux ||
+          Platform.isFuchsia ||
+          Platform.isWindows ||
+          Platform.isMacOS;
+    }
+  }
+}
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -67,8 +89,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '755681568857',
     projectId: 'c0mplex',
     storageBucket: 'c0mplex.appspot.com',
-    androidClientId: '755681568857-jiba8btc2cangp6luj6e5kuf0u035eiu.apps.googleusercontent.com',
-    iosClientId: '755681568857-980djgobqq1ac166u1c8to6gjjkrpq9n.apps.googleusercontent.com',
+    androidClientId:
+        '755681568857-jiba8btc2cangp6luj6e5kuf0u035eiu.apps.googleusercontent.com',
+    iosClientId:
+        '755681568857-980djgobqq1ac166u1c8to6gjjkrpq9n.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterTests',
   );
 
@@ -78,8 +102,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '755681568857',
     projectId: 'c0mplex',
     storageBucket: 'c0mplex.appspot.com',
-    androidClientId: '755681568857-jiba8btc2cangp6luj6e5kuf0u035eiu.apps.googleusercontent.com',
-    iosClientId: '755681568857-980djgobqq1ac166u1c8to6gjjkrpq9n.apps.googleusercontent.com',
+    androidClientId:
+        '755681568857-jiba8btc2cangp6luj6e5kuf0u035eiu.apps.googleusercontent.com',
+    iosClientId:
+        '755681568857-980djgobqq1ac166u1c8to6gjjkrpq9n.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterTests',
   );
 }
