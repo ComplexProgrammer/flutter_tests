@@ -12,7 +12,7 @@ import 'package:flutter_tests/models/answer.dart';
 import 'package:flutter_tests/models/book.dart';
 import 'package:flutter_tests/models/question.dart';
 import 'package:flutter_tests/models/topic.dart';
-import 'package:flutter_tests/screens/adMob/banner.dart';
+import 'package:flutter_tests/screens/ads/banner.dart';
 import 'package:flutter_tests/screens/question/components/CustomRadio.dart';
 import 'package:flutter_tests/screens/question/components/backdrop.dart';
 import 'package:flutter_tests/screens/question/components/time.dart';

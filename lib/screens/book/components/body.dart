@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tests/constants.dart';
 import 'package:flutter_tests/models/group.dart';
-import 'package:flutter_tests/screens/adMob/banner.dart';
+import 'package:flutter_tests/screens/ads/banner.dart';
 import 'package:flutter_tests/screens/book/components/backdrop.dart';
 import 'package:flutter_tests/screens/book/components/book_carousel.dart';
 
@@ -31,6 +31,7 @@ class Body extends StatelessWidget {
             group: group,
           ),
           MyBannerAdWidget(),
+          // _showInterstitialAd(),
         ],
       ),
     );
