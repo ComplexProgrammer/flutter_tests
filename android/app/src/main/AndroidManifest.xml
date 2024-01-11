@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.flutter_tests">
+    package="schooltests.complexprogrammer.uz">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
    <application
@@ -32,5 +32,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+            <meta-data
+        android:name="com.google.android.gms.ads.APPLICATION_ID"
+        android:value="ca-app-pub-7773722896374259~1462009452"/>
     </application>
 </manifest>

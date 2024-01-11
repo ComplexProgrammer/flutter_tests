@@ -25,7 +25,8 @@ class _GroupCaruselState extends State<GroupCarousel> {
       loading = true;
     });
 
-    final responseData = await http.get(Uri.parse("$baseUrl/GetGroups/"));
+    final responseData =
+        await http.get(Uri.parse("$baseUrl/GetGroups/?type_id=2"));
     if (responseData.statusCode == 200) {
       final data = jsonDecode(responseData.body);
       setState(() {

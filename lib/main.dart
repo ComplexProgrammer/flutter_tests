@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_tests/navbar.dart';
 import 'package:flutter_tests/screens/group/components/body.dart';
 import 'package:flutter_tests/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -10,6 +13,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  unawaited(MobileAds.instance.initialize());
   runApp(SplashApp());
 }
 

@@ -1,4 +1,4 @@
-package com.example.flutter_tests
+package schooltests.complexprogrammer.uz
 
 import io.flutter.embedding.android.FlutterActivity
 

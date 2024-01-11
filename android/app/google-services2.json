@@ -37,13 +37,6 @@
             {
               "client_id": "755681568857-m6h958r9t1d9e4aa9dtpdhdhrv1qd8o0.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "755681568857-980djgobqq1ac166u1c8to6gjjkrpq9n.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.flutterTests"
-              }
             }
           ]
         }
@@ -58,14 +51,6 @@
         }
       },
       "oauth_client": [
-        {
-          "client_id": "755681568857-d3rpvl79228uf8r0kptea523nocukb8a.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "schooltests.complexprogrammer.uz",
-            "certificate_hash": "7e215a7335249217b9121961dc58661f70dd8dc6"
-          }
-        },
         {
           "client_id": "755681568857-m6h958r9t1d9e4aa9dtpdhdhrv1qd8o0.apps.googleusercontent.com",
           "client_type": 3
@@ -82,18 +67,10 @@
             {
               "client_id": "755681568857-m6h958r9t1d9e4aa9dtpdhdhrv1qd8o0.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "755681568857-980djgobqq1ac166u1c8to6gjjkrpq9n.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.flutterTests"
-              }
             }
           ]
         }
-      },
-      "admob_app_id": "ca-app-pub-7773722896374259~1462009452"
+      }
     }
   ],
   "configuration_version": "1"

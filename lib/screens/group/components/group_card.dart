@@ -39,11 +39,11 @@ class GroupCard extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               boxShadow: const [kDefaultShadow],
-              // color: Colors.black.withOpacity(0.0),
-              color: Color(0xFFF909080),
+              color: Colors.blue.withOpacity(0.9),
+              // color: Color(0xFFF909080),
               image: group.image != ''
                   ? DecorationImage(
-                      fit: BoxFit.contain,
+                      fit: BoxFit.scaleDown,
                       image: NetworkImage("$baseUrl/media/${group.image}"),
                     )
                   : const DecorationImage(

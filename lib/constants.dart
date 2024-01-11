@@ -11,7 +11,7 @@ const baseUrl = 'http://complexprogrammer.uz';
 // const baseUrl = 'https://localhost:8000';
 
 const kDefaultShadow = BoxShadow(
-  offset: Offset(0, 4),
+  offset: Offset(0, 40),
   blurRadius: 4,
   color: Colors.black26,
 );

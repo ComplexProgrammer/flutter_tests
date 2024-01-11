@@ -31,10 +31,10 @@ class BookCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
                   boxShadow: const [kDefaultShadow],
-                  color: Color(0xFFF709080),
+                  color: Colors.cyan,
                   image: book.type__image != ''
                       ? DecorationImage(
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                           image: NetworkImage(
                               '$baseUrl/media/${book.type__image}'),
                         )

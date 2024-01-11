@@ -4,7 +4,7 @@
 *.pyc
 *.swp
 .DS_Store
-node_modules
+web/node_modules
 .atom/
 .buildlog/
 .history

@@ -12,6 +12,7 @@ import 'package:flutter_tests/models/answer.dart';
 import 'package:flutter_tests/models/book.dart';
 import 'package:flutter_tests/models/question.dart';
 import 'package:flutter_tests/models/topic.dart';
+import 'package:flutter_tests/screens/adMob/banner.dart';
 import 'package:flutter_tests/screens/question/components/CustomRadio.dart';
 import 'package:flutter_tests/screens/question/components/backdrop.dart';
 import 'package:flutter_tests/screens/question/components/time.dart';
@@ -82,6 +83,7 @@ class Body extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Backdrop(size: size, topic: topic),
+          MyBannerAdWidget(),
           Time(minutes: minutes, seconds: seconds),
           Padding(
             padding: const EdgeInsets.all(kDefaultPadding / 10),
@@ -153,6 +155,7 @@ class Body extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                               shape: const StadiumBorder()),
                         ),
+                        MyBannerAdWidget(),
                         // ElevatedButton.icon(
                         //   onPressed: () => Navigator.push(
                         //     context,
@@ -172,6 +175,7 @@ class Body extends StatelessWidget {
                         // ),
                       ],
                     ),
+
                     // content: const Image(
                     //   image: NetworkImage(
                     //       '$baseUrl/static/img/school_tests_bg.png'),
@@ -428,6 +432,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               color: Colors.grey,
               fontSize: 24,
             ),
+            textAlign: TextAlign.center,
           ),
           ListView.builder(
             shrinkWrap: true,

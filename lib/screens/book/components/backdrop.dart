@@ -25,7 +25,7 @@ class Backdrop extends StatelessWidget {
             borderRadius:
                 const BorderRadius.only(bottomLeft: Radius.circular(50)),
             boxShadow: const [kDefaultShadow],
-            color: Color(0xFFF909080),
+            color: Colors.blue.withOpacity(0.9),
             image: group.image != ''
                 ? DecorationImage(
                     fit: BoxFit.fitWidth,

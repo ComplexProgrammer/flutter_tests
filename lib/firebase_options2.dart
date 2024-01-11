@@ -44,42 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDpWaFi5QLTNc-yY0ieMKJtGOmbm2ofBm4',
-    appId: '1:755681568857:web:102b1b733df55baefe2948',
-    messagingSenderId: '755681568857',
-    projectId: 'c0mplex',
-    authDomain: 'c0mplex.firebaseapp.com',
-    storageBucket: 'c0mplex.appspot.com',
-    measurementId: 'G-H8XGTS4B9J',
+    apiKey: 'AIzaSyAqgbpbEsqbuEIXuDqJOjCE88juw-R7tW0',
+    appId: '1:968321072915:web:25112a2853a0174591a4e6',
+    messagingSenderId: '968321072915',
+    projectId: 'schooltests1',
+    authDomain: 'schooltests1.firebaseapp.com',
+    storageBucket: 'schooltests1.appspot.com',
+    measurementId: 'G-W2XFLXV6W4',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBj21ySm8AfeCowiUXpopDt9W7KEDdAjPg',
-    appId: '1:755681568857:android:ed654b9ffe2b00befe2948',
-    messagingSenderId: '755681568857',
-    projectId: 'c0mplex',
-    storageBucket: 'c0mplex.appspot.com',
+    apiKey: 'AIzaSyChYMS1zG_XSMekShx8x22-A6GTkugK2B8',
+    appId: '1:968321072915:android:d9cd3c2e89b80c4291a4e6',
+    messagingSenderId: '968321072915',
+    projectId: 'schooltests1',
+    storageBucket: 'schooltests1.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyA3TOK1bDImOOBg15A5yQht9C25_e9B3LQ',
-    appId: '1:755681568857:ios:397924731922ed0cfe2948',
-    messagingSenderId: '755681568857',
-    projectId: 'c0mplex',
-    storageBucket: 'c0mplex.appspot.com',
-    androidClientId: '755681568857-jiba8btc2cangp6luj6e5kuf0u035eiu.apps.googleusercontent.com',
-    iosClientId: '755681568857-980djgobqq1ac166u1c8to6gjjkrpq9n.apps.googleusercontent.com',
+    apiKey: 'AIzaSyB0gcTyoYqq4M7Y9Sm_lj6Qw7UgaK2cU1o',
+    appId: '1:968321072915:ios:3ce0b8802b3cdd4f91a4e6',
+    messagingSenderId: '968321072915',
+    projectId: 'schooltests1',
+    storageBucket: 'schooltests1.appspot.com',
     iosBundleId: 'com.example.flutterTests',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyA3TOK1bDImOOBg15A5yQht9C25_e9B3LQ',
-    appId: '1:755681568857:ios:397924731922ed0cfe2948',
-    messagingSenderId: '755681568857',
-    projectId: 'c0mplex',
-    storageBucket: 'c0mplex.appspot.com',
-    androidClientId: '755681568857-jiba8btc2cangp6luj6e5kuf0u035eiu.apps.googleusercontent.com',
-    iosClientId: '755681568857-980djgobqq1ac166u1c8to6gjjkrpq9n.apps.googleusercontent.com',
+    apiKey: 'AIzaSyB0gcTyoYqq4M7Y9Sm_lj6Qw7UgaK2cU1o',
+    appId: '1:968321072915:ios:3ce0b8802b3cdd4f91a4e6',
+    messagingSenderId: '968321072915',
+    projectId: 'schooltests1',
+    storageBucket: 'schooltests1.appspot.com',
     iosBundleId: 'com.example.flutterTests',
   );
 }

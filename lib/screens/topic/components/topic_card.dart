@@ -38,6 +38,7 @@ class TopicCard extends StatelessWidget {
               child: Text(
                 topic.name_uz_uz,
                 style: Theme.of(context).textTheme.headline5,
+                textAlign: TextAlign.center,
               ),
             ),
             Expanded(
