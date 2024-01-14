@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tests/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class NavBar extends StatelessWidget {
   // const NavBar({super.key});
+  Future<PackageInfo> _getPackageInfo() {
+    return PackageInfo.fromPlatform();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,26 +64,40 @@ class NavBar extends StatelessWidget {
             ),
             onTap: () => _launchURL(),
           ),
-          const AboutListTile(
-            // <-- SEE HERE
-            icon: Icon(
-              Icons.info,
-              color: Colors.orangeAccent,
-            ),
-            applicationIcon: Icon(
-              Icons.local_play,
-            ),
-            applicationName: 'School tests',
-            applicationVersion: '1.0.25',
-            applicationLegalese: '© 2023 Complex Programmer',
-            aboutBoxChildren: [
-              ///Content goes here...
-            ],
-            child: Text(
-              'About app',
-              style: TextStyle(
-                color: Colors.orangeAccent,
-              ),
+          Center(
+            child: FutureBuilder<PackageInfo>(
+              future: _getPackageInfo(),
+              builder:
+                  (BuildContext context, AsyncSnapshot<PackageInfo> snapshot) {
+                if (snapshot.hasError) {
+                  return const Text('ERROR');
+                } else if (!snapshot.hasData) {
+                  return const Text('Loading...');
+                }
+
+                final data = snapshot.data!;
+                return AboutListTile(
+                  icon: const Icon(
+                    Icons.info,
+                    color: Colors.orangeAccent,
+                  ),
+                  applicationIcon: const Icon(
+                    Icons.question_answer_outlined,
+                  ),
+                  applicationName: data.appName,
+                  applicationVersion: data.version,
+                  applicationLegalese: '© 2024 Complex Programmer',
+                  aboutBoxChildren: [
+                    ///Content goes here...
+                  ],
+                  child: const Text(
+                    'About app',
+                    style: TextStyle(
+                      color: Colors.orangeAccent,
+                    ),
+                  ),
+                );
+              },
             ),
           ),
         ],
@@ -90,11 +108,13 @@ class NavBar extends StatelessWidget {
 
 _launchURL() async {
   String url = 'https://t.me/schooltestsuzb';
-  print(url);
-  // if (await canLaunchUrl(Uri.parse(url))) {
-  //   await launchUrl(Uri.parse(url));
-  // }
-  // else {
-  //   throw 'Could not launch $url';
-  // }
+  if (await canLaunchUrl(Uri.parse(url))) {
+    await launchUrl(Uri.parse(url));
+  } else {
+    throw 'Could not launch $url';
+  }
 }
+// _initPackageInfo() async {
+//   final info = await PackageInfo.fromPlatform();
+//   return info;
+// }
