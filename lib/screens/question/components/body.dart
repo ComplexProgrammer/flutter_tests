@@ -87,118 +87,14 @@ class Body extends StatelessWidget {
           Time(minutes: minutes, seconds: seconds),
           Padding(
             padding: const EdgeInsets.all(kDefaultPadding / 10),
-            child: MyStatefulWidget(topic: topic),
+            child: MyStatefulWidget(topic: topic, book: book, group: group),
           ),
           Padding(
             padding: const EdgeInsets.all(kDefaultPadding / 10),
             child: ElevatedButton(
               onPressed: () {
                 isPaused = true;
-                showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    insetPadding: const EdgeInsets.symmetric(vertical: 150),
-                    contentPadding: EdgeInsets.zero,
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    backgroundColor: Colors.transparent,
-                    title: const Text('Natijalar'),
-                    icon: const Icon(Icons.restore_outlined),
-                    titlePadding: const EdgeInsets.all(kDefaultPadding / 2),
-                    content: Column(
-                      children: [
-                        Text(
-                          'To`g`ri javoblar: ${togri_javoblar_soni}',
-                          style: const TextStyle(
-                            color: Colors.greenAccent,
-                          ),
-                        ),
-                        Text(
-                          'Noto`g`ri javoblar: ${notogri_javoblar_soni}',
-                          style: TextStyle(
-                            color: Colors.redAccent,
-                          ),
-                        ),
-                        Text(
-                          'Belgilanmagan savollar:  ${all_question - togri_javoblar_soni - notogri_javoblar_soni}',
-                          style: TextStyle(
-                            color: Colors.grey,
-                          ),
-                        ),
-                        ElevatedButton.icon(
-                          onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => TopicScreen(
-                                book: book,
-                                group: group,
-                              ),
-                            ),
-                          ),
-                          icon: const Icon(
-                            Icons.topic,
-                            size: 24.0,
-                          ),
-                          label: const Text('Mavzular'), // <-- Text
-                        ),
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            debugPrint('ElevatedButton Clicked');
-                            Navigator.pop(context);
-                            isPaused = false;
-                          },
-                          icon: const Icon(
-                            Icons.start,
-                            size: 24.0,
-                          ),
-                          label: const Text('Davom etish'),
-                          style: ElevatedButton.styleFrom(
-                              shape: const StadiumBorder()),
-                        ),
-                        MyBannerAdWidget(),
-                        // ElevatedButton.icon(
-                        //   onPressed: () => Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => QuestionScreen(
-                        //         topic: topic,
-                        //         book: book,
-                        //         group: group,
-                        //       ),
-                        //     ),
-                        //   ),
-                        //   icon: const Icon(
-                        //     Icons.start,
-                        //     size: 24.0,
-                        //   ),
-                        //   label: const Text('Keyingi biletga o`tish'),
-                        // ),
-                      ],
-                    ),
-
-                    // content: const Image(
-                    //   image: NetworkImage(
-                    //       '$baseUrl/static/img/school_tests_bg.png'),
-                    // ),
-                    // actions: [
-                    //   TextButton(
-                    //     child: const Text('close'),
-                    //     onPressed: () => Navigator.pop(context),
-                    //   ),
-                    //   // TextButton(
-                    //   //   child: const Text('OK'),
-                    //   //   onPressed: () {
-                    //   //     Navigator.push(
-                    //   //       context,
-                    //   //       MaterialPageRoute(
-                    //   //         builder: (context) => TopicScreen(book: book),
-                    //   //       ),
-                    //   //     );
-                    //   //   },
-                    //   // ),
-                    // ],
-                  ),
-                );
+                _showDialog(context, topic, book, group, isPaused);
               },
               child: const Text('Yakunlash'),
             ),
@@ -212,12 +108,151 @@ class Body extends StatelessWidget {
   }
 }
 
+void _showDialog(
+    BuildContext context, Topic topic, Book book, Group group, bool isPaused) {
+  int belgilanmagan_savollar =
+      all_question - togri_javoblar_soni - notogri_javoblar_soni;
+  // flutter defined function
+  showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (context) => AlertDialog(
+      insetPadding: const EdgeInsets.symmetric(vertical: 150),
+      contentPadding: EdgeInsets.zero,
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      //backgroundColor: Colors.transparent,
+      title: const Text('Natijalar'),
+      icon: const Icon(Icons.restore_outlined),
+      titlePadding: const EdgeInsets.all(kDefaultPadding / 2),
+      content: Column(
+        children: [
+          if (togri_javoblar_soni != 0)
+            Text(
+              'To`g`ri javoblar: ${togri_javoblar_soni}',
+              style: const TextStyle(
+                color: Colors.greenAccent,
+              ),
+            ),
+          if (notogri_javoblar_soni != 0)
+            Text(
+              'Noto`g`ri javoblar: ${notogri_javoblar_soni}',
+              style: const TextStyle(
+                color: Colors.redAccent,
+              ),
+            ),
+          if (belgilanmagan_savollar != 0)
+            Text(
+              'Belgilanmagan savollar:  ${belgilanmagan_savollar}',
+              style: const TextStyle(
+                color: Colors.grey,
+              ),
+            ),
+          ElevatedButton.icon(
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TopicScreen(
+                  book: book,
+                  group: group,
+                ),
+              ),
+            ),
+            icon: const Icon(
+              Icons.topic,
+              size: 24.0,
+            ),
+            label: const Text('Mavzular'), // <-- Text
+          ),
+          ElevatedButton.icon(
+            onPressed: () {
+              debugPrint('ElevatedButton Clicked');
+              Navigator.pop(context);
+              isPaused = false;
+            },
+            icon: const Icon(
+              Icons.start,
+              size: 24.0,
+            ),
+            label: const Text('Davom etish'),
+            style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
+          ),
+          ElevatedButton.icon(
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => QuestionScreen(
+                  topic: topic,
+                  book: book,
+                  group: group,
+                ),
+              ),
+            ),
+            icon: const Icon(
+              Icons.refresh,
+              size: 24.0,
+            ),
+            label: const Text('Boshidan boshlash'),
+            style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
+          ),
+          MyBannerAdWidget(),
+          // ElevatedButton.icon(
+          //   onPressed: () => Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //       builder: (context) => QuestionScreen(
+          //         topic: topic,
+          //         book: book,
+          //         group: group,
+          //       ),
+          //     ),
+          //   ),
+          //   icon: const Icon(
+          //     Icons.start,
+          //     size: 24.0,
+          //   ),
+          //   label: const Text('Keyingi biletga o`tish'),
+          // ),
+        ],
+      ),
+
+      // content: const Image(
+      //   image: NetworkImage(
+      //       '$baseUrl/static/img/school_tests_bg.png'),
+      // ),
+      // actions: [
+      //   TextButton(
+      //     child: const Text('close'),
+      //     onPressed: () => Navigator.pop(context),
+      //   ),
+      //   // TextButton(
+      //   //   child: const Text('OK'),
+      //   //   onPressed: () {
+      //   //     Navigator.push(
+      //   //       context,
+      //   //       MaterialPageRoute(
+      //   //         builder: (context) => TopicScreen(book: book),
+      //   //       ),
+      //   //     );
+      //   //   },
+      //   // ),
+      // ],
+    ),
+  );
+}
+
 class MyStatefulWidget extends StatefulWidget {
   final Topic topic;
-  const MyStatefulWidget({super.key, required this.topic});
+  final Book book;
+  final Group group;
+  const MyStatefulWidget(
+      {super.key,
+      required this.topic,
+      required this.book,
+      required this.group});
 
   @override
-  State<MyStatefulWidget> createState() => _MyStatefulWidgetState(topic);
+  State<MyStatefulWidget> createState() =>
+      _MyStatefulWidgetState(topic, book, group);
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
@@ -273,6 +308,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   final player = AudioPlayer();
   final Topic topic;
+  final Book book;
+  final Group group;
   late PageController _pageController;
   int initalPage = 1;
   int questionNumber = 0;
@@ -291,7 +328,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   List<RadioModel> sampleData = [];
   var loading = false;
   Answer? selectedRadio;
-  _MyStatefulWidgetState(this.topic);
+  _MyStatefulWidgetState(this.topic, this.book, this.group);
 
   Future<void> getData() async {
     final SharedPreferences prefs = await _prefs;
@@ -325,6 +362,26 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           questions.add(Question.fromJson(i));
         }
         if (questions.isNotEmpty) {
+          if (selectedAnswers
+                  .where((word) => word.topicId == topic.id)
+                  .length ==
+              questions.length) {
+            prefs.setString(
+                'selected_answers',
+                jsonEncode(selectedAnswers
+                    .where((element) => element.topicId != topic.id)));
+            var tagsJson =
+                jsonDecode(prefs.getString('selected_answers') ?? '[]');
+            List? tags = tagsJson != null ? List.from(tagsJson) : null;
+            for (var element in tags!) {
+              selectedAnswers.add(selected_answer(
+                  topicId: element["topicId"],
+                  questionId: element["questionId"],
+                  answerId: element["answerId"],
+                  right: element["right"],
+                  time: element["time"]));
+            }
+          }
           all_question = questions.length;
           questions.sort((a, b) {
             return a.number - b.number;
@@ -343,7 +400,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               }
             }
           }
-          questionNumber = number + 1;
+          if (selectedAnswers
+                  .where((element) => element.topicId == topic.id)
+                  .length ==
+              questions.length) {
+            _showDialog(context, topic, book, group, true);
+          } else {
+            questionNumber = number + 1;
+          }
+          if (questionNumber == 0) {
+            questionNumber = 1;
+          }
           togri_javoblar_soni = togri_javob_soni;
           notogri_javoblar_soni = notogri_javob_soni;
           setData(questionNumber);
@@ -437,8 +504,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           ListView.builder(
             shrinkWrap: true,
             itemCount: sampleData.length,
+            padding: EdgeInsets.all(1.0),
             itemBuilder: (BuildContext context, int index) {
               return InkWell(
+                highlightColor: Colors.yellow.withOpacity(0.3),
+                splashColor: Colors.red.withOpacity(0.8),
+                focusColor: Colors.green.withOpacity(0.0),
+                hoverColor: Colors.blue.withOpacity(0.8),
                 onTap: _enabled
                     ? () {
                         _enabled = false;
@@ -513,6 +585,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           if (index == 2) buttonText = 'B';
           if (index == 3) buttonText = 'C';
           if (index == 4) buttonText = 'D';
+          if (index == 5) buttonText = 'E';
+          if (index == 6) buttonText = 'F';
+          if (index == 7) buttonText = 'G';
+          if (index == 8) buttonText = 'H';
+          if (index == 9) buttonText = 'J';
+          if (index == 10) buttonText = 'K';
           sampleData.add(RadioModel(question, i, false, false, buttonText));
         }
       });

@@ -15,7 +15,7 @@ class Backdrop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: size.height * 0.4,
+      height: size.height * 0.2,
       child: Stack(children: [
         Container(
           height: size.height * 0.4 - 25,
@@ -62,6 +62,7 @@ class Backdrop extends StatelessWidget {
                 Text(
                   topic.name_uz_uz,
                   style: Theme.of(context).textTheme.titleSmall,
+                  textAlign: TextAlign.left,
                 ),
               ],
             ),
