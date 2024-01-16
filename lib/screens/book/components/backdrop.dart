@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tests/constants.dart';
 import 'package:flutter_tests/models/group.dart';
+import 'package:flutter_tests/splash_screen.dart';
 
 import '../../group/group_screen.dart';
 
@@ -76,7 +77,7 @@ class Backdrop extends StatelessWidget {
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => GroupScreen(),
+                builder: (context) => SplashApp(),
               ),
             ),
             child: const Icon(

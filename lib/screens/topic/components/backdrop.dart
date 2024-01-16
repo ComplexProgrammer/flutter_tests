@@ -29,10 +29,10 @@ class Backdrop extends StatelessWidget {
                 const BorderRadius.only(bottomLeft: Radius.circular(50)),
             boxShadow: const [kDefaultShadow],
             color: Colors.cyan.withOpacity(0.9),
-            image: book.type__image != ''
+            image: book.image != ''
                 ? DecorationImage(
                     fit: BoxFit.fill,
-                    image: NetworkImage('$baseUrl/media/${book.type__image}'),
+                    image: NetworkImage('$baseUrl/media/${book.image}'),
                   )
                 : const DecorationImage(
                     fit: BoxFit.fill,

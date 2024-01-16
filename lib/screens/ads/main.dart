@@ -30,7 +30,7 @@ import 'webview_example.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
-  runApp(MyApp());
+  runApp(AdsApp());
 }
 
 // You can also test with your own ad unit IDs by registering your device as a
@@ -38,12 +38,12 @@ void main() {
 const String testDevice = 'YOUR_DEVICE_ID';
 const int maxFailedLoadAttempts = 3;
 
-class MyApp extends StatefulWidget {
+class AdsApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<AdsApp> {
   static final AdRequest request = AdRequest(
     keywords: <String>['foo', 'bar'],
     contentUrl: 'http://foo.com/bar.html',

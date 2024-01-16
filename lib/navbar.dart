@@ -42,7 +42,7 @@ class NavBar extends StatelessWidget {
               color: Colors.greenAccent,
             ),
             title: const Text(
-              'Test ishlash',
+              'Testlar',
               style: TextStyle(
                 color: Colors.greenAccent,
               ),

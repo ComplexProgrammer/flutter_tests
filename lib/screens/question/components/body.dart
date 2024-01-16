@@ -53,24 +53,28 @@ class selected_answer {
       };
 }
 
+final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+List<selected_answer> selectedAnswers = [];
+
 class Body extends StatelessWidget {
   final Topic topic;
   final Book book;
   final Group group;
-  final int tjs;
-  final int njs;
+  // final int tjs;
+  // final int njs;
 
-  const Body(
-      {super.key,
-      required this.topic,
-      required this.book,
-      required this.group,
-      required this.tjs,
-      required this.njs});
+  const Body({
+    super.key,
+    required this.topic,
+    required this.book,
+    required this.group,
+    // required this.tjs,
+    // required this.njs
+  });
   @override
   Widget build(BuildContext context) {
-    togri_javoblar_soni = tjs;
-    notogri_javoblar_soni = njs;
+    // togri_javoblar_soni = tjs;
+    // notogri_javoblar_soni = njs;
     Timer? countdownTimer;
     Duration myDuration = Duration(minutes: minutes, seconds: seconds);
     bool isPaused = false;
@@ -84,7 +88,7 @@ class Body extends StatelessWidget {
         children: <Widget>[
           Backdrop(size: size, topic: topic),
           MyBannerAdWidget(),
-          Time(minutes: minutes, seconds: seconds),
+          // Time(minutes: minutes, seconds: seconds),
           Padding(
             padding: const EdgeInsets.all(kDefaultPadding / 10),
             child: MyStatefulWidget(topic: topic, book: book, group: group),
@@ -120,9 +124,14 @@ void _showDialog(
       insetPadding: const EdgeInsets.symmetric(vertical: 150),
       contentPadding: EdgeInsets.zero,
       clipBehavior: Clip.antiAliasWithSaveLayer,
-      //backgroundColor: Colors.transparent,
-      title: const Text('Natijalar'),
-      icon: const Icon(Icons.restore_outlined),
+      backgroundColor: Colors.blueAccent,
+      title: const Text(
+        'Natijalar',
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+      icon: const Icon(Icons.event),
       titlePadding: const EdgeInsets.all(kDefaultPadding / 2),
       content: Column(
         children: [
@@ -170,23 +179,14 @@ void _showDialog(
               isPaused = false;
             },
             icon: const Icon(
-              Icons.start,
+              Icons.next_plan,
               size: 24.0,
             ),
             label: const Text('Davom etish'),
             style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
           ),
           ElevatedButton.icon(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => QuestionScreen(
-                  topic: topic,
-                  book: book,
-                  group: group,
-                ),
-              ),
-            ),
+            onPressed: () => {nextTopic(context, topic, book, group, true)},
             icon: const Icon(
               Icons.refresh,
               size: 24.0,
@@ -240,6 +240,45 @@ void _showDialog(
   );
 }
 
+void nextTopic(BuildContext context, Topic topic, Book book, Group group,
+    bool refresh) async {
+  final SharedPreferences prefs = await _prefs;
+  if (refresh && selectedAnswers.isNotEmpty) {
+    selectedAnswers = selectedAnswers
+        .where((element) => element.topicId != topic.id)
+        .toList();
+    prefs.setString('selected_answers', jsonEncode(selectedAnswers));
+  }
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => QuestionScreen(
+        topic: topic,
+        book: book,
+        group: group,
+      ),
+    ),
+  );
+}
+
+void checkJavoblar(SharedPreferences prefs) async {
+  // prefs.setStringList("javoblar", []);
+  // prefs.setString('selected_answers', '[]');
+  // final SharedPreferences prefs = await _prefs;
+  final String selected_answers = prefs.getString('selected_answers') ?? '[]';
+  print(selected_answers);
+  var tagsJson = jsonDecode(selected_answers);
+  List? tags = tagsJson != null ? List.from(tagsJson) : null;
+  for (var element in tags!) {
+    selectedAnswers.add(selected_answer(
+        topicId: element["topicId"],
+        questionId: element["questionId"],
+        answerId: element["answerId"],
+        right: element["right"],
+        time: element["time"]));
+  }
+}
+
 class MyStatefulWidget extends StatefulWidget {
   final Topic topic;
   final Book book;
@@ -258,25 +297,6 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   // final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late Future<String> _selected_answer;
-  List<selected_answer> selectedAnswers = [];
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  void checkJavoblar(SharedPreferences prefs) async {
-    // prefs.setStringList("javoblar", []);
-    // prefs.setString('selected_answers', '[]');
-    // final SharedPreferences prefs = await _prefs;
-    final String selected_answers = prefs.getString('selected_answers') ?? '[]';
-    print(selected_answers);
-    var tagsJson = jsonDecode(selected_answers);
-    List? tags = tagsJson != null ? List.from(tagsJson) : null;
-    for (var element in tags!) {
-      selectedAnswers.add(selected_answer(
-          topicId: element["topicId"],
-          questionId: element["questionId"],
-          answerId: element["answerId"],
-          right: element["right"],
-          time: element["time"]));
-    }
-  }
 
   Future<void> setAnswer(Answer answer) async {
     selected_answer selectedAnswer = new selected_answer(
@@ -347,7 +367,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         int notogri_javob_soni = 0;
         Question question = this.question;
         List<Question> questions = this.questions;
-        List<selected_answer> selectedAnswers = this.selectedAnswers;
+        //List<selected_answer> selectedAnswers = this.selectedAnswers;
         for (Map<String, dynamic> i in data) {
           question.selectedAnswer = null;
           if (selectedAnswers.firstWhereOrNull(
@@ -362,26 +382,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           questions.add(Question.fromJson(i));
         }
         if (questions.isNotEmpty) {
-          if (selectedAnswers
-                  .where((word) => word.topicId == topic.id)
-                  .length ==
-              questions.length) {
-            prefs.setString(
-                'selected_answers',
-                jsonEncode(selectedAnswers
-                    .where((element) => element.topicId != topic.id)));
-            var tagsJson =
-                jsonDecode(prefs.getString('selected_answers') ?? '[]');
-            List? tags = tagsJson != null ? List.from(tagsJson) : null;
-            for (var element in tags!) {
-              selectedAnswers.add(selected_answer(
-                  topicId: element["topicId"],
-                  questionId: element["questionId"],
-                  answerId: element["answerId"],
-                  right: element["right"],
-                  time: element["time"]));
-            }
-          }
           all_question = questions.length;
           questions.sort((a, b) {
             return a.number - b.number;
@@ -476,8 +476,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   bottomRight: Radius.circular(20),
                 ),
               ),
-              onPageChange: (number) {
-                player.play(UrlSource('$baseUrl/static/sounds/click.mp3'));
+              onPageChange: (number) async {
+                try {
+                  //player.play(UrlSource('$baseUrl/static/sounds/click.mp3'));
+                  await player.play(AssetSource('raw/click.mp3'));
+                } on Exception catch (_) {
+                  print('sound play error');
+                }
                 setData(number);
                 if (question.selectedAnswer == null) {
                   _enabled = true;
@@ -512,18 +517,18 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 focusColor: Colors.green.withOpacity(0.0),
                 hoverColor: Colors.blue.withOpacity(0.8),
                 onTap: _enabled
-                    ? () {
+                    ? () async {
                         _enabled = false;
                         try {
                           if (sampleData[index].answer.right) {
                             togri_javoblar_soni = togri_javoblar_soni + 1;
                             player.play(
-                              UrlSource('$baseUrl/static/sounds/right.mp3'),
+                              await AssetSource('raw/right.mp3'),
                             );
                           } else {
                             notogri_javoblar_soni++;
                             player.play(
-                              UrlSource('$baseUrl/static/sounds/wrong.mp3'),
+                              await AssetSource('raw/wrong.mp3'),
                             );
                           }
                         } on Exception catch (_) {

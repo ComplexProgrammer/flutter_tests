@@ -4,7 +4,7 @@ class Book {
   String name_ru_ru;
   String name_uz_crl;
   String name_uz_uz;
-  String type__image;
+  String image;
   int group_id;
   Book({
     required this.id,
@@ -12,7 +12,7 @@ class Book {
     required this.name_ru_ru,
     required this.name_uz_crl,
     required this.name_uz_uz,
-    required this.type__image,
+    required this.image,
     required this.group_id,
   });
   factory Book.fromJson(Map<String, dynamic> json) => Book(
@@ -21,7 +21,7 @@ class Book {
         name_ru_ru: json["name_ru_ru"],
         name_uz_crl: json["name_uz_crl"],
         name_uz_uz: json["name_uz_uz"],
-        type__image: json["type__image"],
+        image: json["image"],
         group_id: json["group_id"],
       );
   Map<String, dynamic> toJson() => {
@@ -30,7 +30,7 @@ class Book {
         "name_ru_ru": name_ru_ru,
         "name_uz_crl": name_uz_crl,
         "name_uz_uz": name_uz_uz,
-        "type__image": type__image,
+        "image": image,
         "group_id": group_id,
       };
 }
