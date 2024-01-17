@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         drawer: NavBar(),
         appBar: AppBar(
-          title: const Text('Maktab o\'quvchilari uchun testlar'),
+          title: const Text('Maktab fanlaridan testlar'),
           backgroundColor: Colors.blueAccent,
         ),
         body: Body(),
