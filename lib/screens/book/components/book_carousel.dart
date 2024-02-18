@@ -61,8 +61,8 @@ class _BookCaruselState extends State<BookCarousel> {
       loading = true;
     });
 
-    final responseData = await http
-        .get(Uri.parse("$baseUrl/GetBooks?group_id=${group.id.toString()}"));
+    final responseData = await http.get(
+        Uri.parse("$baseUrl/tests/GetBooks?group_id=${group.id.toString()}"));
     if (responseData.statusCode == 200) {
       final data = jsonDecode(responseData.body);
       setState(() {
