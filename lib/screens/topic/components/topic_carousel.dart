@@ -28,7 +28,7 @@ class _TopicCaruselState extends State<TopicCarousel> {
 
   _TopicCaruselState(this.book, this.group);
 
-  Future<Null> getData() async {
+  Future<void> getData() async {
     setState(() {
       loading = true;
     });
@@ -58,8 +58,8 @@ class _TopicCaruselState extends State<TopicCarousel> {
 
   @override
   void dispose() {
-    super.dispose();
     _pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -90,7 +90,7 @@ class _TopicCaruselState extends State<TopicCarousel> {
     return AnimatedBuilder(
       animation: _pageController,
       builder: (context, child) {
-        double value = 0, page = 0;
+        double value = 0;
         if (_pageController.position.haveDimensions) {
           value = index - _pageController.page!;
           value = (value * 0.038).clamp(-1, 1);

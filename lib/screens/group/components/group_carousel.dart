@@ -14,8 +14,10 @@ class GroupCarousel extends StatefulWidget {
   _GroupCaruselState createState() => _GroupCaruselState();
 }
 
-class _GroupCaruselState extends State<GroupCarousel> {
+class _GroupCaruselState extends State<GroupCarousel>
+    with SingleTickerProviderStateMixin {
   late PageController _pageController;
+  late AnimationController _shimmerController;
   int initalPage = 1;
   List<Group> groups = [];
   var loading = false;
@@ -46,18 +48,23 @@ class _GroupCaruselState extends State<GroupCarousel> {
       viewportFraction: 0.8,
       initialPage: initalPage,
     );
+    _shimmerController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    )..repeat();
   }
 
   @override
   void dispose() {
-    super.dispose();
     _pageController.dispose();
+    _shimmerController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return loading
-        ? const Center(child: CircularProgressIndicator())
+        ? _buildShimmerLoading()
         : Padding(
             padding: const EdgeInsets.symmetric(vertical: kDefaultPadding),
             child: AspectRatio(
@@ -76,6 +83,94 @@ class _GroupCaruselState extends State<GroupCarousel> {
               ),
             ),
           );
+  }
+
+  Widget _buildShimmerLoading() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: kDefaultPadding),
+      child: AspectRatio(
+        aspectRatio: 1.05,
+        child: Center(
+          child: AnimatedBuilder(
+            animation: _shimmerController,
+            builder: (context, child) {
+              return Container(
+                margin:
+                    const EdgeInsets.symmetric(horizontal: kDefaultPadding * 2),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(kCardBorderRadius),
+                  gradient: LinearGradient(
+                    begin: Alignment(-1.0 + 2 * _shimmerController.value, -0.3),
+                    end: Alignment(0.0 + 2 * _shimmerController.value, 0.3),
+                    colors: [
+                      kShimmerBaseColor,
+                      kShimmerHighlightColor,
+                      kShimmerBaseColor,
+                    ],
+                    stops: const [0.0, 0.5, 1.0],
+                  ),
+                  boxShadow: const [kCardShadow],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      flex: 4,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(kCardBorderRadius),
+                          ),
+                          color: kShimmerBaseColor.withOpacity(0.5),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            Icons.image_outlined,
+                            size: 48,
+                            color: kTextLightColor.withOpacity(0.3),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.8),
+                        borderRadius: const BorderRadius.vertical(
+                          bottom: Radius.circular(kCardBorderRadius),
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 16,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: kShimmerBaseColor,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Container(
+                            height: 12,
+                            width: 120,
+                            decoration: BoxDecoration(
+                              color: kShimmerBaseColor.withOpacity(0.7),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
   }
 
   Widget buildGroupSlider(int index) {
