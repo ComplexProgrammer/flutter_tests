@@ -31,54 +31,53 @@ class GroupCard extends StatelessWidget {
     );
   }
 
-  Column buildGroupCard(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              boxShadow: const [kDefaultShadow],
-              color: Colors.blue.withOpacity(0.9),
-              // color: Color(0xFFF909080),
-              image: group.image != ''
-                  ? DecorationImage(
-                      fit: BoxFit.scaleDown,
-                      image: NetworkImage("$baseUrl/media/${group.image}"),
+  Widget buildGroupCard(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: const [kDefaultShadow],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              flex: 4,
+              child: (group.image != null && group.image!.isNotEmpty)
+                  ? Image.network(
+                      "$baseUrl/media/${group.image}",
+                      fit: BoxFit.cover,
                     )
-                  : const DecorationImage(
-                      fit: BoxFit.fill,
-                      image: AssetImage(
-                        'assets/images/img.png',
-                      ),
+                  : Image.asset(
+                      'assets/images/img.png',
+                      fit: BoxFit.cover,
                     ),
             ),
-          ),
+            Expanded(
+              flex: 1,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                alignment: Alignment.center,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                ),
+                child: Text(
+                  group.name_uz_uz ?? '',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: kTextColor,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-        // Padding(
-        //   padding: const EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
-        //   child: Text(
-        //     group.name_uz_uz,
-        //     style: Theme.of(context).textTheme.headlineSmall,
-        //   ),
-        // ),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: [
-        //     Image.network(
-        //       '$baseUrl/static/img/school_tests_bg.png',
-        //       height: 20,
-        //     ),
-        //     const SizedBox(
-        //       width: kDefaultPadding / 2,
-        //     ),
-        //     Text(
-        //       "${group.name_uz_uz}",
-        //       style: Theme.of(context).textTheme.bodyText2,
-        //     ),
-        //   ],
-        // )
-      ],
+      ),
     );
   }
 }

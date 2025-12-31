@@ -11,44 +11,52 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Backdrop(size: size, group: group),
         Padding(
           padding: const EdgeInsets.all(kDefaultPadding),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "${group.name_uz_uz} fanni tanlang",
-                      style: Theme.of(context).textTheme.headlineSmall,
+                      "${group.name_uz_uz}",
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: kTextColor,
+                      ),
                     ),
-                    const SizedBox(
-                      height: kDefaultPadding / 2,
-                    )
+                    const SizedBox(height: 5),
+                    const Text(
+                      "Kerakli fanni tanlang va bilimingizni sinang",
+                      style: TextStyle(color: kTextLightColor, fontSize: 14),
+                    ),
                   ],
                 ),
               ),
-              SizedBox(
-                height: 64,
-                width: 64,
-                child: TextButton(
+              Container(
+                height: 56,
+                width: 56,
+                decoration: BoxDecoration(
+                  color: kSecondaryColor,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: kSecondaryColor.withOpacity(0.3),
+                      blurRadius: 15,
+                      offset: const Offset(0, 8),
+                    )
+                  ],
+                ),
+                child: IconButton(
                   onPressed: () {},
-                  style: TextButton.styleFrom(
-                    alignment: Alignment.center,
-                    backgroundColor: kSecondaryColor,
-                    minimumSize: const Size(double.infinity, 200),
-                    padding: const EdgeInsets.all(0),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                  ),
-                  child: const SizedBox(
-                      child: Icon(
-                    Icons.add,
-                    size: 28,
-                    color: Colors.white,
-                  )),
+                  icon: const Icon(Icons.auto_stories_rounded,
+                      color: Colors.white),
                 ),
               )
             ],

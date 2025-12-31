@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_tests/constants.dart';
 import 'package:flutter_tests/navbar.dart';
 import 'package:flutter_tests/screens/group/components/body.dart';
 import 'package:flutter_tests/splash_screen.dart';
@@ -28,15 +29,41 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: 'Maktab Testlari',
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: kPrimaryColor,
+          primary: kPrimaryColor,
+          secondary: kSecondaryColor,
+          surface: kBackgroundColor,
+        ),
+        scaffoldBackgroundColor: kBackgroundColor,
+        appBarTheme: const AppBarTheme(
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          titleTextStyle: TextStyle(
+            color: kTextColor,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+          iconTheme: IconThemeData(color: kTextColor),
+        ),
+        textTheme: const TextTheme(
+          headlineSmall: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: kTextColor,
+          ),
+        ),
+      ),
       home: Scaffold(
         drawer: NavBar(),
         appBar: AppBar(
-          title: const Text('Maktab fanlaridan testlar'),
-          backgroundColor: Colors.blueAccent,
+          title: const Text('Fanlar Testi'),
         ),
         body: Body(),
       ),
-      // home: GroupScreen(),
     );
   }
 }

@@ -116,126 +116,89 @@ void _showDialog(
     BuildContext context, Topic topic, Book book, Group group, bool isPaused) {
   int belgilanmagan_savollar =
       all_question - togri_javoblar_soni - notogri_javoblar_soni;
-  // flutter defined function
+
   showDialog(
     barrierDismissible: false,
     context: context,
     builder: (context) => AlertDialog(
-      insetPadding: const EdgeInsets.symmetric(vertical: 150),
-      contentPadding: EdgeInsets.zero,
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      backgroundColor: Colors.blueAccent,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      backgroundColor: kBackgroundColor,
       title: const Text(
-        'Natijalar',
+        'Test Natijalari',
+        textAlign: TextAlign.center,
         style: TextStyle(
-          color: Colors.white,
+          color: kTextColor,
+          fontWeight: FontWeight.bold,
         ),
       ),
-      icon: const Icon(Icons.event),
-      titlePadding: const EdgeInsets.all(kDefaultPadding / 2),
+      icon: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: kPrimaryColor.withOpacity(0.1),
+          shape: BoxShape.circle,
+        ),
+        child: const Icon(Icons.analytics, color: kPrimaryColor, size: 32),
+      ),
       content: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          if (togri_javoblar_soni != 0)
-            Text(
-              'To`g`ri javoblar: ${togri_javoblar_soni}',
-              style: const TextStyle(
-                color: Colors.greenAccent,
-              ),
-            ),
-          if (notogri_javoblar_soni != 0)
-            Text(
-              'Noto`g`ri javoblar: ${notogri_javoblar_soni}',
-              style: const TextStyle(
-                color: Colors.redAccent,
-              ),
-            ),
-          if (belgilanmagan_savollar != 0)
-            Text(
-              'Belgilanmagan savollar:  ${belgilanmagan_savollar}',
-              style: const TextStyle(
-                color: Colors.grey,
-              ),
-            ),
+          _buildResultItem(
+              'To`g`ri javoblar', togri_javoblar_soni.toString(), Colors.green),
+          _buildResultItem('Noto`g`ri javoblar',
+              notogri_javoblar_soni.toString(), Colors.red),
+          if (belgilanmagan_savollar > 0)
+            _buildResultItem('Belgilanmagan', belgilanmagan_savollar.toString(),
+                Colors.grey),
+          const SizedBox(height: 20),
           ElevatedButton.icon(
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => TopicScreen(
-                  book: book,
-                  group: group,
-                ),
-              ),
+                  builder: (context) => TopicScreen(book: book, group: group)),
             ),
-            icon: const Icon(
-              Icons.topic,
-              size: 24.0,
+            icon: const Icon(Icons.topic),
+            label: const Text('Mavzularga qaytish'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: kPrimaryColor,
+              foregroundColor: Colors.white,
+              minimumSize: const Size(double.infinity, 45),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
             ),
-            label: const Text('Mavzular'), // <-- Text
           ),
-          ElevatedButton.icon(
-            onPressed: () {
-              debugPrint('ElevatedButton Clicked');
-              Navigator.pop(context);
-              isPaused = false;
-            },
-            icon: const Icon(
-              Icons.next_plan,
-              size: 24.0,
+          const SizedBox(height: 10),
+          OutlinedButton.icon(
+            onPressed: () => nextTopic(context, topic, book, group, true),
+            icon: const Icon(Icons.refresh),
+            label: const Text('Qayta boshlash'),
+            style: OutlinedButton.styleFrom(
+              minimumSize: const Size(double.infinity, 45),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
             ),
-            label: const Text('Davom etish'),
-            style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
           ),
-          ElevatedButton.icon(
-            onPressed: () => {nextTopic(context, topic, book, group, true)},
-            icon: const Icon(
-              Icons.refresh,
-              size: 24.0,
-            ),
-            label: const Text('Boshidan boshlash'),
-            style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
+          const SizedBox(height: 10),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Yopish'),
           ),
-          MyBannerAdWidget(),
-          // ElevatedButton.icon(
-          //   onPressed: () => Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //       builder: (context) => QuestionScreen(
-          //         topic: topic,
-          //         book: book,
-          //         group: group,
-          //       ),
-          //     ),
-          //   ),
-          //   icon: const Icon(
-          //     Icons.start,
-          //     size: 24.0,
-          //   ),
-          //   label: const Text('Keyingi biletga o`tish'),
-          // ),
         ],
       ),
+    ),
+  );
+}
 
-      // content: const Image(
-      //   image: NetworkImage(
-      //       '$baseUrl/static/img/school_tests_bg.png'),
-      // ),
-      // actions: [
-      //   TextButton(
-      //     child: const Text('close'),
-      //     onPressed: () => Navigator.pop(context),
-      //   ),
-      //   // TextButton(
-      //   //   child: const Text('OK'),
-      //   //   onPressed: () {
-      //   //     Navigator.push(
-      //   //       context,
-      //   //       MaterialPageRoute(
-      //   //         builder: (context) => TopicScreen(book: book),
-      //   //       ),
-      //   //     );
-      //   //   },
-      //   // ),
-      // ],
+Widget _buildResultItem(String label, String value, Color color) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 4.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label, style: const TextStyle(color: kTextLightColor)),
+        Text(value,
+            style: TextStyle(
+                color: color, fontWeight: FontWeight.bold, fontSize: 18)),
+      ],
     ),
   );
 }

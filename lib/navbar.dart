@@ -12,89 +12,63 @@ class NavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: kBackgroundColor,
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            accountName: const Text("C0mplex"),
+            accountName: const Text(
+              "C0mplex",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             accountEmail: const Text("complexprogrammer@mail.ru"),
             currentAccountPicture: CircleAvatar(
-              backgroundColor: Colors.lightBlueAccent,
-              child: ClipOval(
-                child: Image.network(
-                  '$baseUrl/static/img/man-icon.png',
+              backgroundColor: Colors.white24,
+              child: Padding(
+                padding: const EdgeInsets.all(2),
+                child: ClipOval(
+                  child: Image.network(
+                    '$baseUrl/static/img/man-icon.png',
+                    errorBuilder: (context, error, stackTrace) =>
+                        const Icon(Icons.person, color: Colors.white),
+                  ),
                 ),
               ),
             ),
             decoration: const BoxDecoration(
-              color: Colors.blueAccent,
-              // image: DecorationImage(
-              //   image: NetworkImage(
-              //     '$baseUrl/static/img/C0mplex.png',
-              //   ),
-              //   fit: BoxFit.fill,
-              // ),
+              gradient: kPremiumGradient,
             ),
           ),
-          ListTile(
-            leading: const Icon(
-              Icons.textsms_sharp,
-              color: Colors.greenAccent,
-            ),
-            title: const Text(
-              'Testlar',
-              style: TextStyle(
-                color: Colors.greenAccent,
-              ),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-            },
+          _buildDrawerItem(
+            icon: Icons.auto_awesome_mosaic_rounded,
+            title: 'Testlar',
+            color: kPrimaryColor,
+            onTap: () => Navigator.pop(context),
           ),
-          ListTile(
-            leading: const Icon(
-              Icons.telegram,
-              color: Colors.blueAccent,
-            ),
-            title: const Text(
-              'Telegram',
-              style: TextStyle(
-                color: Colors.blueAccent,
-              ),
-            ),
+          _buildDrawerItem(
+            icon: Icons.telegram,
+            title: 'Telegram',
+            color: const Color(0xFF0088cc),
             onTap: () => _launchURL(),
           ),
-          Center(
+          const Divider(indent: 20, endIndent: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: FutureBuilder<PackageInfo>(
               future: _getPackageInfo(),
-              builder:
-                  (BuildContext context, AsyncSnapshot<PackageInfo> snapshot) {
-                if (snapshot.hasError) {
-                  return const Text('ERROR');
-                } else if (!snapshot.hasData) {
-                  return const Text('Loading...');
-                }
-
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return const SizedBox();
                 final data = snapshot.data!;
                 return AboutListTile(
-                  icon: const Icon(
-                    Icons.info,
-                    color: Colors.orangeAccent,
-                  ),
-                  applicationIcon: const Icon(
-                    Icons.question_answer_outlined,
-                  ),
+                  icon: const Icon(Icons.info_outline, color: kTextLightColor),
+                  applicationIcon: const Icon(Icons.question_answer_rounded,
+                      color: kPrimaryColor, size: 40),
                   applicationName: data.appName,
                   applicationVersion: data.version,
                   applicationLegalese: '© 2024 Complex Programmer',
-                  aboutBoxChildren: [
-                    ///Content goes here...
-                  ],
                   child: const Text(
-                    'About app',
-                    style: TextStyle(
-                      color: Colors.orangeAccent,
-                    ),
+                    'Dastur haqida',
+                    style: TextStyle(color: kTextLightColor),
                   ),
                 );
               },
@@ -102,6 +76,24 @@ class NavBar extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildDrawerItem({
+    required IconData icon,
+    required String title,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return ListTile(
+      leading: Icon(icon, color: color),
+      title: Text(
+        title,
+        style: TextStyle(color: kTextColor, fontWeight: FontWeight.w600),
+      ),
+      onTap: onTap,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
     );
   }
 }

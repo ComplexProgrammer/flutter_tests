@@ -21,45 +21,55 @@ class TopicCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => QuestionScreen(
-                    topic: topic,
-                    book: book,
-                    group: group,
-                  ))),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
-              child: Text(
-                topic.name_uz_uz,
-                style: Theme.of(context).textTheme.headlineSmall,
-                textAlign: TextAlign.center,
+        context,
+        MaterialPageRoute(
+          builder: (context) => QuestionScreen(
+            topic: topic,
+            book: book,
+            group: group,
+          ),
+        ),
+      ),
+      child: Container(
+        margin: const EdgeInsets.symmetric(
+            horizontal: kDefaultPadding, vertical: 8),
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: const [kDefaultShadow],
+        ),
+        child: Row(
+          children: [
+            Container(
+              height: 60,
+              width: 60,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: kPrimaryColor.withOpacity(0.1),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: topic.image.isNotEmpty
+                    ? Image.network(
+                        '$baseUrl/media/${topic.image}',
+                        fit: BoxFit.cover,
+                      )
+                    : const Icon(Icons.topic, color: kPrimaryColor),
               ),
             ),
+            const SizedBox(width: 15),
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  boxShadow: const [kDefaultShadow],
-                  color: const Color(0xfff709090),
-                  image: topic.image != ''
-                      ? DecorationImage(
-                          fit: BoxFit.fill,
-                          image: NetworkImage('$baseUrl/media/${topic.image}'))
-                      : const DecorationImage(
-                          fit: BoxFit.fill,
-                          image: AssetImage(
-                            'assets/images/img.png',
-                          ),
-                        ),
+              child: Text(
+                topic.name_uz_uz,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: kTextColor,
                 ),
               ),
             ),
+            const Icon(Icons.chevron_right, color: kTextLightColor),
           ],
         ),
       ),
