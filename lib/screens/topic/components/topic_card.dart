@@ -37,7 +37,7 @@ class TopicCard extends StatelessWidget {
                   const EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
               child: Text(
                 topic.name_uz_uz,
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headlineSmall,
                 textAlign: TextAlign.center,
               ),
             ),

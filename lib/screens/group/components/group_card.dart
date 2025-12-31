@@ -59,7 +59,7 @@ class GroupCard extends StatelessWidget {
         //   padding: const EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
         //   child: Text(
         //     group.name_uz_uz,
-        //     style: Theme.of(context).textTheme.headline5,
+        //     style: Theme.of(context).textTheme.headlineSmall,
         //   ),
         // ),
         // Row(

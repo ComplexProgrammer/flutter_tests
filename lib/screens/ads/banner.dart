@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'package:flutter/widgets.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -10,11 +11,11 @@ class MyBannerAdWidget extends StatefulWidget {
   /// The AdMob ad unit to show.
   ///
   /// TODO: replace this test ad unit with your own ad unit
-  final String adUnitId = Platform.isAndroid
-      // Use this ad unit on Android...
-      ? 'ca-app-pub-7773722896374259/1178104271'
-      // ... or this one on iOS.
-      : 'ca-app-pub-7773722896374259/1178104271';
+  final String adUnitId = kIsWeb
+      ? ''
+      : Platform.isAndroid
+          ? 'ca-app-pub-7773722896374259/1178104271'
+          : 'ca-app-pub-7773722896374259/1178104271';
 
   MyBannerAdWidget({
     super.key,
@@ -31,6 +32,7 @@ class _MyBannerAdWidgetState extends State<MyBannerAdWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (kIsWeb) return const SizedBox();
     return SafeArea(
       child: SizedBox(
         width: widget.adSize.width.toDouble(),
@@ -47,7 +49,9 @@ class _MyBannerAdWidgetState extends State<MyBannerAdWidget> {
   @override
   void initState() {
     super.initState();
-    _loadAd();
+    if (!kIsWeb) {
+      _loadAd();
+    }
   }
 
   @override

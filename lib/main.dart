@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_tests/navbar.dart';
@@ -13,7 +14,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  unawaited(MobileAds.instance.initialize());
+  if (!kIsWeb) {
+    unawaited(MobileAds.instance.initialize());
+  }
   runApp(SplashApp());
 }
 

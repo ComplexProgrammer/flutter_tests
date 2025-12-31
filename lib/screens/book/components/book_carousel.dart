@@ -8,6 +8,7 @@ import 'package:flutter_tests/screens/book/components/book_card.dart';
 import 'package:http/http.dart' as http;
 import 'dart:math' as math;
 import 'dart:io';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_tests/constants.dart';
@@ -77,11 +78,13 @@ class _BookCaruselState extends State<BookCarousel> {
   @override
   void initState() {
     super.initState();
-    MobileAds.instance.updateRequestConfiguration(
-        RequestConfiguration(testDeviceIds: [testDevice]));
-    _createInterstitialAd();
-    _createRewardedAd();
-    _createRewardedInterstitialAd();
+    if (!kIsWeb) {
+      MobileAds.instance.updateRequestConfiguration(
+          RequestConfiguration(testDeviceIds: [testDevice]));
+      _createInterstitialAd();
+      _createRewardedAd();
+      _createRewardedInterstitialAd();
+    }
     getData();
     _pageController = PageController(
       viewportFraction: 0.8,

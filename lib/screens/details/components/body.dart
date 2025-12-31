@@ -22,7 +22,7 @@ class Body extends StatelessWidget {
                   children: [
                     Text(
                       "${group.name_uz_uz} fanni tanlang",
-                      style: Theme.of(context).textTheme.headline5,
+                      style: Theme.of(context).textTheme.headlineSmall,
                     ),
                     const SizedBox(
                       height: kDefaultPadding / 2,

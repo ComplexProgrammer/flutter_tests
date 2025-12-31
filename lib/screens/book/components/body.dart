@@ -22,7 +22,7 @@ class Body extends StatelessWidget {
           //     children: [
           //       Text(
           //         "Fanni tanlang",
-          //         style: Theme.of(context).textTheme.headline5,
+          //         style: Theme.of(context).textTheme.headlineSmall,
           //       ),
           //     ],
           //   ),
