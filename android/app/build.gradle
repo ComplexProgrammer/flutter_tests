@@ -18,7 +18,7 @@ def flutterVersionCode = localProperties.getProperty("flutter.versionCode")
 if (flutterVersionCode == null) {
     flutterVersionCode = "1"
 } else {
-    flutterVersionCode = "9"
+    flutterVersionCode = "10"
 }
 
 def flutterVersionName = localProperties.getProperty("flutter.versionName")
@@ -34,6 +34,7 @@ android {
     ndkVersion "27.0.12077973"
 
     compileOptions {
+        
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
