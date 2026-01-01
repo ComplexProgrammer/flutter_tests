@@ -13,10 +13,8 @@
 // limitations under the License.
 
 // ignore_for_file: public_member_api_docs
-import 'package:native_ads_flutter/native_ads.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'constants.dart';
 import 'dart:io' show Platform;
 
 /// This example demonstrates inline ads in a list view, where the ad objects
@@ -35,7 +33,7 @@ class _ReusableInlineExampleState extends State<ReusableInlineExample> {
 
   NativeAd? _nativeAd;
   bool _nativeAdIsLoaded = false;
-  final _controller = NativeAdmobController();
+
   @override
   Widget build(BuildContext context) => Center(
         child: Padding(

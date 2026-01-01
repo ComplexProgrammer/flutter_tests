@@ -372,10 +372,10 @@ packages:
     dependency: "direct main"
     description:
       name: google_mobile_ads
-      sha256: d2ef5ec1e1f31137fc241bdeab3037c31062d387dd221fd884fb1160444c788b
+      sha256: "0d4a3744b5e8ed1b8be6a1b452d309f811688855a497c6113fc4400f922db603"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.0"
+    version: "5.3.1"
   http:
     dependency: "direct main"
     description:
@@ -480,14 +480,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.0"
-  native_ads_flutter:
-    dependency: "direct main"
-    description:
-      name: native_ads_flutter
-      sha256: "0de9f6a25ca1e825c55ffa2d8fb24f311b9a9bf5fcee1509a6cd1f3e6ef7b5cd"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.7"
   package_info_plus:
     dependency: "direct main"
     description:
@@ -889,18 +881,18 @@ packages:
     dependency: transitive
     description:
       name: webview_flutter
-      sha256: ec81f57aa1611f8ebecf1d2259da4ef052281cb5ad624131c93546c79ccc7736
+      sha256: c3e4fe614b1c814950ad07186007eff2f2e5dd2935eba7b9a9a1af8e5885f1ba
       url: "https://pub.dev"
     source: hosted
-    version: "4.9.0"
+    version: "4.13.0"
   webview_flutter_android:
     dependency: transitive
     description:
       name: webview_flutter_android
-      sha256: "47a8da40d02befda5b151a26dba71f47df471cddd91dfdb7802d0a87c5442558"
+      sha256: eeeb3fcd5f0ff9f8446c9f4bbc18a99b809e40297528a3395597d03aafb9f510
       url: "https://pub.dev"
     source: hosted
-    version: "3.16.9"
+    version: "4.10.11"
   webview_flutter_platform_interface:
     dependency: transitive
     description:
