@@ -66,16 +66,16 @@ class _HomeScreenState extends State<HomeScreen>
               SliverToBoxAdapter(
                   child: SectionTitle(context.tr('choose_class'))),
               contentSliver(
-                skeleton: _grid(List.generate(
-                    6, (_) => const Skeleton(radius: 20)), context),
+                skeleton: _grid(
+                    List.generate(6, (_) => const Skeleton(radius: 20)),
+                    context),
                 builder: (groups) => groups.isEmpty
                     ? SliverFillRemaining(
                         hasScrollBody: false,
                         child: EmptyView(
                             icon: Icons.inbox_rounded,
                             text: context.tr('err_empty')))
-                    : _grid(
-                        groups.map((g) => _GroupTile(group: g)).toList(),
+                    : _grid(groups.map((g) => _GroupTile(group: g)).toList(),
                         context),
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 24)),
@@ -104,8 +104,12 @@ class _HomeScreenState extends State<HomeScreen>
 class _StatsHeader extends StatelessWidget {
   const _StatsHeader();
 
+  // Listens itself: const instances are not rebuilt by parent rebuilds.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => ListenableBuilder(
+      listenable: AppState.instance, builder: (context, _) => _build(context));
+
+  Widget _build(BuildContext context) {
     final s = AppState.instance;
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
@@ -120,7 +124,8 @@ class _StatsHeader extends StatelessWidget {
             padding: const EdgeInsets.all(18),
             child: Row(
               children: [
-                _stat(context, '🔥', '${s.currentStreak}', context.tr('streak_days')),
+                _stat(context, '🔥', '${s.currentStreak}',
+                    context.tr('streak_days')),
                 _divider(),
                 _stat(context, '✅', '${s.answeredToday}', context.tr('today')),
                 _divider(),
@@ -136,7 +141,8 @@ class _StatsHeader extends StatelessWidget {
   Widget _divider() => Container(
       width: 1, height: 36, color: Colors.white.withValues(alpha: 0.3));
 
-  Widget _stat(BuildContext context, String emoji, String value, String label) =>
+  Widget _stat(
+          BuildContext context, String emoji, String value, String label) =>
       Expanded(
         child: Column(
           children: [
@@ -173,8 +179,7 @@ class _ContinueCard extends StatelessWidget {
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (_) =>
-                    QuizScreen(ref: ref, mode: QuizMode.practice)),
+                builder: (_) => QuizScreen(ref: ref, mode: QuizMode.practice)),
           ),
           child: Padding(
             padding: const EdgeInsets.all(16),

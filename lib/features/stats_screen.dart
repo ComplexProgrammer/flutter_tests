@@ -77,12 +77,15 @@ class StatsScreen extends StatelessWidget {
 class _WeekChart extends StatelessWidget {
   const _WeekChart();
 
+  // Listens itself: const instances are not rebuilt by parent rebuilds.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => ListenableBuilder(
+      listenable: AppState.instance, builder: (context, _) => _build(context));
+
+  Widget _build(BuildContext context) {
     final s = AppState.instance;
     final today = DateTime.now();
-    final days =
-        List.generate(7, (i) => today.subtract(Duration(days: 6 - i)));
+    final days = List.generate(7, (i) => today.subtract(Duration(days: 6 - i)));
     final values = days.map(s.answeredOn).toList();
     final maxV = values.fold<int>(1, (a, b) => b > a ? b : a);
     final weekdays = context.tr('weekdays_short').split(',');
@@ -117,7 +120,8 @@ class _WeekChart extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: isToday
                                 ? context.colors.primary
-                                : context.colors.primary.withValues(alpha: 0.35),
+                                : context.colors.primary
+                                    .withValues(alpha: 0.35),
                             borderRadius: BorderRadius.circular(6),
                           ),
                         ),
@@ -146,8 +150,12 @@ class _WeekChart extends StatelessWidget {
 class _Achievements extends StatelessWidget {
   const _Achievements();
 
+  // Listens itself: const instances are not rebuilt by parent rebuilds.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => ListenableBuilder(
+      listenable: AppState.instance, builder: (context, _) => _build(context));
+
+  Widget _build(BuildContext context) {
     final list = AppState.instance.achievements;
     return LayoutBuilder(builder: (context, c) {
       final cols = c.maxWidth > 600 ? 4 : 2;
