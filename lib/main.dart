@@ -1,68 +1,74 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
-import 'package:flutter/material.dart';
-import 'package:flutter_tests/constants.dart';
-import 'package:flutter_tests/navbar.dart';
-import 'package:flutter_tests/screens/group/components/body.dart';
-import 'package:flutter_tests/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_tests/core/app_state.dart';
+import 'package:flutter_tests/core/l10n.dart';
+import 'package:flutter_tests/core/services.dart';
+import 'package:flutter_tests/core/theme.dart';
+import 'package:flutter_tests/data/api.dart';
+import 'package:flutter_tests/features/splash_screen.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'firebase_options.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  if (!kIsWeb) {
-    unawaited(MobileAds.instance.initialize());
+  final state = await AppState.load();
+  Api.init(state.prefs);
+  try {
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+    if (isMobile) {
+      FlutterError.onError =
+          FirebaseCrashlytics.instance.recordFlutterFatalError;
+      PlatformDispatcher.instance.onError = (error, stack) {
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+        return true;
+      };
+    }
+  } catch (e) {
+    debugPrint('Firebase init failed: $e');
   }
-  runApp(SplashApp());
+  unawaited(AdManager.init());
+  unawaited(Reminders.apply(state.reminders));
+  runApp(const SchoolTestsApp());
 }
 
-class MyApp extends StatelessWidget {
-  // const MyApp({super.key});
+class SchoolTestsApp extends StatelessWidget {
+  const SchoolTestsApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Maktab Testlari',
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: kPrimaryColor,
-          primary: kPrimaryColor,
-          secondary: kSecondaryColor,
-          surface: kBackgroundColor,
+    final state = AppState.instance;
+    return ListenableBuilder(
+      listenable: state,
+      builder: (context, _) => MaterialApp(
+        title: 'Maktab Testlari',
+        debugShowCheckedModeBanner: false,
+        theme: buildTheme(Brightness.light),
+        darkTheme: buildTheme(Brightness.dark),
+        themeMode: state.themeMode,
+        locale: state.lang.locale,
+        supportedLocales: AppLang.values.map((l) => l.locale),
+        localizationsDelegates: GlobalMaterialLocalizations.delegates,
+        scrollBehavior: const MaterialScrollBehavior().copyWith(
+          dragDevices: PointerDeviceKind.values.toSet(),
         ),
-        scaffoldBackgroundColor: kBackgroundColor,
-        appBarTheme: const AppBarTheme(
-          centerTitle: true,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          titleTextStyle: TextStyle(
-            color: kTextColor,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-          iconTheme: IconThemeData(color: kTextColor),
-        ),
-        textTheme: const TextTheme(
-          headlineSmall: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: kTextColor,
-          ),
-        ),
-      ),
-      home: Scaffold(
-        drawer: NavBar(),
-        appBar: AppBar(
-          title: const Text('Fanlar Testi'),
-        ),
-        body: Body(),
+        builder: (context, child) {
+          final mq = MediaQuery.of(context);
+          final system = mq.textScaler.scale(1);
+          return MediaQuery(
+            data: mq.copyWith(
+              textScaler:
+                  TextScaler.linear((system * state.textScale).clamp(0.8, 2.0)),
+            ),
+            child: child!,
+          );
+        },
+        home: const SplashScreen(),
       ),
     );
   }

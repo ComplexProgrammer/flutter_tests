@@ -56,6 +56,11 @@ dependencies:
   firebase_crashlytics: ^3.4.9
   package_info_plus: ^5.0.1
   rename_app: ^1.3.1
+  cached_network_image: ^3.4.0
+  collection: ^1.19.1
+  share_plus: ^7.2.2
+  flutter_localizations:
+    sdk: flutter
 dev_dependencies:
   flutter_test:
     sdk: flutter
