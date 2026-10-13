@@ -115,9 +115,11 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-flutter_icons:
-  image_path: "assets/images/img.png"
+flutter_launcher_icons:
   android: true
   ios: true
+  image_path: "assets/images/app_icon_1024.png"
+  min_sdk_android: 21
+  adaptive_icon_background: "assets/images/adaptive_bg.png"
+  adaptive_icon_foreground: "assets/images/adaptive_fg.png"
   remove_alpha_ios: true
-  resize_behavior: shrink_only
